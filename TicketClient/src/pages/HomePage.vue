@@ -11,6 +11,9 @@
 
     <!--体育赛事-->
     <sport></sport>
+
+    <!--话剧歌剧-->
+    <opera></opera>
   </div>
 </template>
 
@@ -19,12 +22,14 @@
   import HotShow from '../components/home/HotShow.vue'
   import Concert from '../components/home/Concert.vue'
   import Sport from '../components/home/Sport.vue'
+  import Opera from '../components/home/Opera.vue'
   export default {
     components: {
       Carousel,
       HotShow,
       Concert,
-      Sport
+      Sport,
+      Opera
     },
     data () {
       return {

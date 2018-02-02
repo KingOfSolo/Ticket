@@ -2,11 +2,11 @@
   <div class="concert">
     <div class="concert-head">
       <div class="concert-head-title">演唱会</div>
-      <div class="concert-head-more">查看更多></div>
+      <div class="concert-head-more" @click="toChoosePage">查看更多></div>
     </div>
     <div class="concert-container">
       <big-show-display :big-show-info="concertBigShow"></big-show-display>
-      <div style="display: inline-block; text-align: left;width: 940px;vertical-align: top">
+      <div style="display: inline-block; text-align: left;width: 940px;vertical-align: top;margin-left: 5px">
         <small-show-display v-for="item in concertSmallShow" :key="item" :small-show-display="item"></small-show-display>
       </div>
     </div>
@@ -72,6 +72,11 @@
             price: 998
           },
         ]
+      }
+    },
+    methods: {
+      toChoosePage: function () {
+        this.$router.push({name: 'Choose'})
       }
     }
   }
