@@ -37,12 +37,23 @@
     width: 250px;
     height: 370px;
     cursor: pointer;
+    overflow: hidden;
+    border-radius: 10px;
   }
 
   .big-show-display img{
     width: 100%;
     height: 100%;
     border-radius: 10px;
+    transition: transform 1s;
+  }
+
+  .big-show-display img:hover{
+    transform:scale(1.2);
+    -ms-transform:scale(1.2);
+    -webkit-transform:scale(1.2);
+    -o-transform:scale(1.2);
+    -moz-transform:scale(1.2);
   }
 
   .mask{
