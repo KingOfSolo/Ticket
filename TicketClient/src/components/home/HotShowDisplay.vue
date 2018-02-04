@@ -1,5 +1,5 @@
 <template>
-  <div class="hot-show-display">
+  <div class="hot-show-display" @click="toShowDetail">
     <img :src="hotShowInfo.posterUrl"/>
     <div class="hot-show-display-title">{{ hotShowInfo.title }}</div>
     <div class="hot-show-display-price">
@@ -19,6 +19,11 @@
 //          title: '【上海站】开心麻花爆笑舞台剧《乌龙山伯爵》爆笑舞台剧',
 //          price: 101
 //        }
+      }
+    },
+    methods: {
+      toShowDetail: function () {
+        this.$router.push({name: 'Detail', params: {id: '0001'}})
       }
     }
   }
