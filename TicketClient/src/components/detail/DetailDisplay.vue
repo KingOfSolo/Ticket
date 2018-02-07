@@ -7,7 +7,7 @@
         <div class="detail-display-time"><span style="margin-right: 10px">{{detailDisplayInfo.time}}</span><span>{{detailDisplayInfo.place}}</span></div>
         <div class="detail-display-price">
           <span style="margin-right: 20px">选择票价</span>
-          <div class="detail-display-price-container" v-for="(index, item) in priceList">{{item}}票面</div>
+          <div class="detail-display-price-container" v-for="(index, item) in detailDisplayInfo.priceList" @click="priceClick(index)" :class="{priceActive: index == priceActiveNum}">{{item}}票面</div>
         </div>
         <div class="detail-display-number">
           <span style="margin-right: 20px">选择数量</span>
@@ -40,12 +40,16 @@
         },
         num: 1,
         max: 10,
-        totalPrice: 480
+        totalPrice: 480,
+        priceActiveNum: 0
       }
     },
     methods: {
       handleChange: function (value) {
 
+      },
+      priceClick: function (index) {
+        this.priceActiveNum = index
       }
     }
   }
@@ -104,7 +108,14 @@
     display: inline-block;
     padding: 5px 20px 5px 20px;
     border-radius: 20px;
-    border: 2px solid #777777;
+    border: 2px solid #f2f2f2;
+    cursor: pointer;
+    margin: 0 10px 10px 0;
+  }
+
+  .priceActive{
+    border: 2px solid #EA2000;
+    color: #EA2000;
   }
 
   .detail-display-button div{
