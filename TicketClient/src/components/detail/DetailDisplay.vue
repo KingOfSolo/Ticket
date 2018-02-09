@@ -7,7 +7,7 @@
         <div class="detail-display-time"><span style="margin-right: 10px">{{detailDisplayInfo.time}}</span><span>{{detailDisplayInfo.place}}</span></div>
         <div class="detail-display-price">
           <span style="margin-right: 20px">选择票价</span>
-          <div class="detail-display-price-container" v-for="(index, item) in detailDisplayInfo.priceList" @click="priceClick(index)" :class="{priceActive: index == priceActiveNum}">{{item}}票面</div>
+          <div class="detail-display-price-container" v-for="(item, index) in detailDisplayInfo.priceList" @click="priceClick(index)" :class="{priceActive: index == priceActiveNum}">{{item}}票面</div>
         </div>
         <div class="detail-display-number">
           <span style="margin-right: 20px">选择数量</span>
@@ -36,20 +36,23 @@
           title: '【上海站】开心麻花爆笑舞台剧《乌龙山伯爵》',
           time: '2018.2.10 19:30',
           place: '上海梅赛德斯奔驰文化中心',
-          priceList: [280, 480, 680, 880, 980, 1280, 1580]
+          priceList: [280, 480, 680, 880, 980, 1280]
         },
         num: 1,
         max: 10,
         totalPrice: 480,
-        priceActiveNum: 0
+        priceActiveNum: 0,
+
       }
     },
     methods: {
       handleChange: function (value) {
-
+        this.num = value
+        this.totalPrice = this.detailDisplayInfo.priceList[this.priceActiveNum] * value
       },
       priceClick: function (index) {
         this.priceActiveNum = index
+        this.totalPrice = this.detailDisplayInfo.priceList[index] * this.num
       }
     }
   }
@@ -73,7 +76,8 @@
   }
 
   .detail-display img{
-    border-radius: 10px;
+    position: absolute;
+    border-radius: 20px;
     margin: -40px 0 0 -40px;
     width: 260px;
     height: 340px;
@@ -81,11 +85,14 @@
   }
 
   .detail-display-info{
-    position: absolute;
-    left: 250px;
-    top: 20px;
-    right: 20px;
-    bottom:0px;
+    display: inline-block;
+    margin-left: 240px;
+    padding: 20px;
+    /*position: absolute;*/
+    /*left: 250px;*/
+    /*top: 20px;*/
+    /*right: 20px;*/
+    /*bottom:0px;*/
   }
 
   .detail-display-title{
@@ -111,6 +118,7 @@
     border: 2px solid #f2f2f2;
     cursor: pointer;
     margin: 0 10px 10px 0;
+    font-size: medium;
   }
 
   .priceActive{
@@ -128,5 +136,10 @@
     color: white;
     font-size: 20px;
     cursor: pointer;
+    box-shadow: 0 0 10px #10cf7d;
+  }
+
+  .detail-display-button div:hover{
+    opacity: 0.8;
   }
 </style>
