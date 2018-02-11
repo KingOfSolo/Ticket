@@ -20,9 +20,7 @@
             <img id="head-portrait" :src="headUrl"/>
           </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">我的订单</el-dropdown-item>
-              <el-dropdown-item command="b">优惠券</el-dropdown-item>
-              <el-dropdown-item command="c">地址管理</el-dropdown-item>
+              <el-dropdown-item command="a">个人中心</el-dropdown-item>
               <el-dropdown-item command="d">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -50,7 +48,7 @@ export default {
   methods: {
     handleCommand (command) {
       if (command === 'a') {
-        this.$router.push({name: 'UserSetting', params: {userId: '0001'}})
+        this.$router.push({name: 'User', params: {userId: '0001'}})
       } else if (command === 'd') {
         var loginId = this.$cookie.get('loginId') + ''
         this.$router.push({name: 'UserCenter', params: {userId: loginId}})
