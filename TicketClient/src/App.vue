@@ -7,7 +7,6 @@
           <input id="search-input" placeholder="搜索演出、场馆"/>
           <div id="search-button">
             <i class="el-icon-search"></i>
-            <!--<img src="./assets/search.svg">-->
             搜索
           </div>
         </div>
@@ -27,14 +26,16 @@
         </div>
       </div>
     </div>
-    <router-view/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
   import ElDropdownItem from "../node_modules/element-ui/packages/dropdown/src/dropdown-item";
-export default {
-  components: {ElDropdownItem},
+  export default {
+  components: {
+    ElDropdownItem
+  },
   data () {
     return {
       value1: '',

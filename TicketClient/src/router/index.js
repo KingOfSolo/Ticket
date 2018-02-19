@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/pages/HomePage'
-import Choose from '@/pages/ChoosePage'
-import Detail from '@/pages/DetailPage'
-import User from '@/pages/UserPage'
+import Home from '@/pages/user/HomePage'
+import Choose from '@/pages/user/ChoosePage'
+import Detail from '@/pages/user/DetailPage'
+import User from '@/pages/user/UserPage'
+
+import Login from '@/pages/venue/SignIn'
 
 Vue.use(Router)
 
@@ -28,6 +30,11 @@ export default new Router({
       path: '/User/:userId',
       name: 'User',
       component:User
+    },
+    {
+      path: '/Login',
+      name: 'Login',
+      component:Login
     }
   ]
 })

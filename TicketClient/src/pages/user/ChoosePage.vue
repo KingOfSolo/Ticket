@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import ChooseContainer from '../components/choose/ChooseContainer.vue'
+  import ChooseContainer from '../../components/choose/ChooseContainer.vue'
   export default{
     components: {
       ChooseContainer

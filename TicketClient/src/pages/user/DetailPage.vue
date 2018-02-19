@@ -5,9 +5,11 @@
 </template>
 
 <script>
-  import DetailDisplay from '../components/detail/DetailDisplay.vue'
+  import DetailDisplay from '../../components/detail/DetailDisplay.vue'
+  import HomeHeader from '../../components/home/Header.vue'
   export default{
     components: {
+      HomeHeader,
       DetailDisplay
     },
     data () {

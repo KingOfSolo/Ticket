@@ -1,5 +1,6 @@
 <template>
   <div id="home">
+
     <!--轮播图-->
     <carousel></carousel>
 
@@ -18,13 +19,15 @@
 </template>
 
 <script>
-  import Carousel from '../components/home/Carousel.vue'
-  import HotShow from '../components/home/HotShow.vue'
-  import Concert from '../components/home/Concert.vue'
-  import Sport from '../components/home/Sport.vue'
-  import Opera from '../components/home/Opera.vue'
+  import HomeHeader from '../../components/home/Header.vue'
+  import Carousel from '../../components/home/Carousel.vue'
+  import HotShow from '../../components/home/HotShow.vue'
+  import Concert from '../../components/home/Concert.vue'
+  import Sport from '../../components/home/Sport.vue'
+  import Opera from '../../components/home/Opera.vue'
   export default {
     components: {
+      HomeHeader,
       Carousel,
       HotShow,
       Concert,
