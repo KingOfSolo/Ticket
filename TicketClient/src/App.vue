@@ -1,31 +1,5 @@
 <template>
   <div id="app">
-    <div id="header">
-      <el-button type="text" id="logo">掠影</el-button>
-      <div id="login">
-        <div id="search-container" style="width: 100%">
-          <input id="search-input" placeholder="搜索演出、场馆"/>
-          <div id="search-button">
-            <i class="el-icon-search"></i>
-            搜索
-          </div>
-        </div>
-        <div v-if="isLogin">
-          <el-button type="text" class="header-button" @click="isLogin = false">登录</el-button>
-        </div>
-        <div v-else>
-          <el-dropdown style="margin-left: 10px" @command="handleCommand">
-          <span class="el-dropdown-link">
-            <img id="head-portrait" :src="headUrl"/>
-          </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">个人中心</el-dropdown-item>
-              <el-dropdown-item command="d">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-      </div>
-    </div>
     <router-view></router-view>
   </div>
 </template>

@@ -1,42 +1,19 @@
 <template>
   <div id="venue-login">
     <div class="container">
-      <transition name="el-zoom-in-top">
-        <div v-if="sign" class="sign-in">
-          <div class="content">
-            <h2 style="text-align: center">掠影</h2>
-            <div style="text-align: center;margin-top: 20px">
-              <input class="venue-login-input" placeholder="识别码"/>
-              <input class="venue-login-input" placeholder="密码"/>
-              <button class="venue-login-button">登录</button>
-              <div class="more" @click="sign = false">场馆注册></div>
-            </div>
-          </div>
-          <div class="background-image-in" :style="backgroundStyleIn" @mousemove="mouseMove">
+      <div class="sign-in">
+        <div class="content">
+          <h2 style="text-align: center">掠影</h2>
+          <div style="text-align: center;margin-top: 20px">
+            <input class="venue-login-input" placeholder="识别码"/>
+            <input class="venue-login-input" placeholder="密码"/>
+            <button class="venue-login-button" @click="venueLogin">登录</button>
+            <div class="more" @click="toSignUp">场馆注册></div>
           </div>
         </div>
-      </transition>
-      <transition name="el-zoom-in-bottom">
-        <div v-if="!sign" class="sign-up">
-          <el-form labelWidth="80px">
-            <el-form-item label="识别码">
-              <div>8008200</div>
-            </el-form-item>
-            <el-form-item label="密码">
-              <input class="venue-login-input" style="margin: 0"/>
-            </el-form-item>
-            <el-form-item label="场馆名">
-              <input class="venue-login-input"  style="margin: 0"/>
-            </el-form-item>
-            <el-form-item label="地址">
-              <input class="venue-login-input" style="margin: 0"/>
-            </el-form-item>
-
-          </el-form>
-          <div class="more" @click="sign = true">场馆登录</div>
+        <div class="background-image-in" :style="backgroundStyleIn" @mousemove="mouseMove">
         </div>
-      </transition>
-
+      </div>
     </div>
   </div>
 </template>
@@ -63,6 +40,12 @@
         var amountMovedX = (event.pageX * -1 / 30);
         var amountMovedY = (event.pageY * -1 / 9);
         this.backgroundStyleIn.backgroundPosition = amountMovedX + 'px '+amountMovedY+'px';
+      },
+      toSignUp: function () {
+        this.$router.push({name: 'SignUp'})
+      },
+      venueLogin: function () {
+        this.$router.push({name: 'Venue',params: {venueId: '00000001'}})
       }
     }
   }
