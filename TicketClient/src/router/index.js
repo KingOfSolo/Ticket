@@ -10,6 +10,8 @@ import Login from '@/pages/venue/SignIn'
 import SignUp from '@/pages/venue/SignUp'
 import Venue from '@/pages/venue/Venue'
 
+import TicketLogin from '@/pages/tickets/Login'
+
 Vue.use(Router)
 
 export default new Router({
@@ -55,6 +57,11 @@ export default new Router({
       path: '/Venue/:venueId',
       name: "Venue",
       component:Venue
+    },
+    {
+      path: '/TicketLogin',
+      name: 'TicketLogin',
+      component:TicketLogin
     }
   ]
 })
