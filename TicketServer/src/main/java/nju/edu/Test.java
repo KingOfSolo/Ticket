@@ -1,5 +1,7 @@
 package nju.edu;
 
+import nju.edu.factory.DaoFactory;
+import nju.edu.model.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Test {
 
-    @RequestMapping(value = "/",method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-    public String index(){
-        return "Hello Spring Boot!";
+    @RequestMapping(value = "/test",method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    public User index(){
+        System.out.println("hello");
+        return DaoFactory.getUserDao().getUserInfo("1");
     }
 }

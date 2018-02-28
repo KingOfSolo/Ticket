@@ -1,4 +1,4 @@
-package nju.edu;
+package nju.edu.filters;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
