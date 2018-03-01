@@ -18,7 +18,10 @@ public class User implements Serializable{
     private int id;
 
     @Column(name = "name")
-    private int name;
+    private String name;
+
+    @Column(name = "phone")
+    private String phone;
 
     public int getId() {
         return id;
@@ -28,11 +31,19 @@ public class User implements Serializable{
         this.id = id;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

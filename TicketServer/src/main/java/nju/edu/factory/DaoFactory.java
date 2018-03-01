@@ -8,7 +8,7 @@ import nju.edu.daoImpl.UserDaoImpl;
  */
 public class DaoFactory {
 
-    public static UserDao getUserDao(){
-        return UserDaoImpl.getInstance();
-    }
+//    public static UserDao getUserDao(){
+//        return UserDaoImpl.getInstance();
+//    }
 }

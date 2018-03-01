@@ -1,4 +1,4 @@
-package nju.edu;
+package nju.edu.controller;
 
 import nju.edu.model.User;
 import nju.edu.service.UserService;
@@ -9,22 +9,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by xiaoJun on 2018/1/31.
+ * Created by xiaoJun on 2018/3/1.
  */
 @RestController
-public class Test {
-
+@RequestMapping(value = "/User")
+public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/test/id/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/findById/id/{id}",method = RequestMethod.GET)
     public User findById(@PathVariable("id")String id){
         return userService.findById(Integer.parseInt(id));
-    }
-
-    @RequestMapping(value = "/test2",method = RequestMethod.GET)
-    public String test2(){
-        System.out.println("hello");
-        return "hello";
     }
 }

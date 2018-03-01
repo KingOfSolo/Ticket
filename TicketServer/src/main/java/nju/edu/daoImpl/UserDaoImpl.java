@@ -12,18 +12,13 @@ import java.util.List;
  * Created by xiaoJun on 2018/2/28.
  */
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl{
 
     @PersistenceContext
     private EntityManager entityManager;
 
     private static UserDaoImpl userDao = new UserDaoImpl();
 
-    public static UserDaoImpl getInstance(){
-        return userDao;
-    }
-
-    @Override
     public User getUserInfo(String id) {
         User user = this.entityManager.find(User.class, Integer.parseInt(id));
         return user;
