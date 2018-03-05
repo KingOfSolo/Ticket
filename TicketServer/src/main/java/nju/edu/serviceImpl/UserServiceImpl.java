@@ -21,4 +21,24 @@ public class UserServiceImpl implements UserService{
     public User findById(int id) {
         return this.userDao.findById(id).get(0);
     }
+
+    @Override
+    public String registerUser(User user) {
+        if(userDao.findByName(user.getName()).isEmpty()){
+            this.userDao.save(user);
+            return "用户名 " + user.getName() + "注册成功";
+        }else {
+            return "用户名 " + user.getName() + "已被占用!";
+        }
+
+    }
+
+    @Override
+    public User login(String name, String password) {
+        User user = userDao.findByNameAndPassword(name, password).get(0);
+        if(user == null){
+
+        }
+        return null;
+    }
 }
