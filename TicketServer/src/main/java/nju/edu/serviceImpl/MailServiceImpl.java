@@ -1,21 +1,16 @@
 package nju.edu.serviceImpl;
 
 import nju.edu.service.MailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
-import java.util.Properties;
 
 /**
  * Created by LENOVO on 2018/3/5.
@@ -65,13 +60,15 @@ public class MailServiceImpl implements MailService{
 //
 //        MimeMessage mailMessage = mailSender.createMimeMessage();
 //        MimeMessageHelper message = new MimeMessageHelper(mailMessage);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(from);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(content);
-        try {
+        MimeMessage message = mailSender.createMimeMessage();
+//        SimpleMailMessage message = new SimpleMailMessage();
 
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(content, true);
             mailSender.send(message);
         } catch (Exception e) {
             e.printStackTrace();
