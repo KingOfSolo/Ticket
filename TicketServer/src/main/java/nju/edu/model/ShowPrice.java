@@ -19,7 +19,7 @@ public class ShowPrice implements Serializable{
     private String seat_name;
     @Column(name = "price")
     private int price;
-    @ManyToOne(cascade=CascadeType.ALL,optional=false)
+    @ManyToOne(optional=false)
     @JoinColumn(name="show_id")
     private Show show;
 

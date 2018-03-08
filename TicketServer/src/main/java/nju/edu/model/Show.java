@@ -36,7 +36,7 @@ public class Show implements Serializable{
     private int type;
     @Column(name = "poster")
     private String poster;
-    @OneToMany(mappedBy="show",cascade = javax.persistence.CascadeType.ALL)
+    @OneToMany(mappedBy="show")
     private Set<ShowPrice> showPrices = new HashSet<ShowPrice>();
 
     public int getShow_id() {
@@ -129,6 +129,8 @@ public class Show implements Serializable{
         this.type = type;
         this.poster = poster;
     }
+
+    public Show(){}
 
     public void addShowPrice(ShowPrice showPrice){
         this.showPrices.add(showPrice);
