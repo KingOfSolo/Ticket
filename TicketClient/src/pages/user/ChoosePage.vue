@@ -3,7 +3,7 @@
     <div class="choose-tab">
       <span class="choose-tab-item" v-for="(item, index) in tabs" @click="tabClick(index)" :class="{tabActive: index == tabActiveNum}">{{item}}</span>
     </div>
-    <choose-container></choose-container>
+    <choose-container :choose-show-info-list="chooseShowInfoList"></choose-container>
   </div>
 </template>
 
@@ -16,13 +16,33 @@
     data () {
       return{
         tabs: ['全部', '演唱会', '话剧歌剧', '体育赛事', '音乐会', '儿童亲子', '舞蹈芭蕾', '展览休闲', '曲艺杂谈'],
-        tabActiveNum: 0
+        tabActiveNum: 0,
+        chooseShowInfoList: []
       }
     },
     methods:{
       tabClick: function (index) {
         this.tabActiveNum = index
+        var self = this
+        this.$http({
+          method: 'post',
+          dataType: 'JSONP',
+          url: '/Show/type/'+this.tabActiveNum
+        }).then(function (res) {
+          self.chooseShowInfoList = res.data
+        })
       }
+    },
+    mounted () {
+      this.tabActiveNum = this.$route.params.type
+      var self = this
+      this.$http({
+        method: 'post',
+        dataType: 'JSONP',
+        url: '/Show/type/'+this.tabActiveNum
+      }).then(function (res) {
+        self.chooseShowInfoList = res.data
+      })
     }
   }
 </script>

@@ -1,5 +1,7 @@
 package nju.edu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -19,7 +21,8 @@ public class ShowPrice implements Serializable{
     private String seat_name;
     @Column(name = "price")
     private int price;
-    @ManyToOne(optional=false)
+    @JsonIgnore
+    @ManyToOne(optional=false,cascade = CascadeType.ALL)
     @JoinColumn(name="show_id")
     private Show show;
 
@@ -67,4 +70,6 @@ public class ShowPrice implements Serializable{
         this.seat_name = seat_name;
         this.price = price;
     }
+
+    public ShowPrice(){}
 }

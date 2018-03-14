@@ -1,7 +1,5 @@
 package nju.edu.model;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -36,7 +34,7 @@ public class Show implements Serializable{
     private int type;
     @Column(name = "poster")
     private String poster;
-    @OneToMany(mappedBy="show")
+    @OneToMany(mappedBy="show",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<ShowPrice> showPrices = new HashSet<ShowPrice>();
 
     public int getShow_id() {

@@ -1,13 +1,13 @@
 <template>
   <div class="detail-display">
     <div class="detail-display-content">
-      <img :src="detailDisplayInfo.poster"/>
+      <img :src="showInfo.poster"/>
       <div class="detail-display-info">
-        <div class="detail-display-title">{{detailDisplayInfo.title}}</div>
-        <div class="detail-display-time"><span style="margin-right: 10px">{{detailDisplayInfo.time}}</span><span>{{detailDisplayInfo.place}}</span></div>
+        <div class="detail-display-title">{{showInfo.name}}</div>
+        <div class="detail-display-time"><span style="margin-right: 10px">{{showInfo.start_time}}</span><span>{{showInfo.address}}</span></div>
         <div class="detail-display-price">
           <span style="margin-right: 20px">选择票价</span>
-          <div class="detail-display-price-container" v-for="(item, index) in detailDisplayInfo.priceList" @click="priceClick(index)" :class="{priceActive: index == priceActiveNum}">{{item}}票面</div>
+          <div class="detail-display-price-container" v-for="(item, index) in priceList" @click="priceClick(index)" :class="{priceActive: index == priceActiveNum}">{{item.price}}票面</div>
         </div>
         <div class="detail-display-number">
           <span style="margin-right: 20px">选择数量</span>
@@ -29,6 +29,19 @@
 
 <script>
   export default{
+    props: ['showInfo'],
+    computed: {
+      priceList: function () {
+        var compare = function (property) {
+          return function(obj1,obj2){
+            var value1 = obj1[property];
+            var value2 = obj2[property];
+            return value1 - value2;
+          }
+        }
+        return this.showInfo.showPrices.sort(compare("price"))
+      }
+    },
     data () {
       return {
         detailDisplayInfo: {
@@ -40,20 +53,22 @@
         },
         num: 1,
         max: 10,
-        totalPrice: 480,
+        totalPrice: 0,
         priceActiveNum: 0,
-
       }
     },
     methods: {
       handleChange: function (value) {
         this.num = value
-        this.totalPrice = this.detailDisplayInfo.priceList[this.priceActiveNum] * value
+        this.totalPrice = this.showInfo.showPrices[this.priceActiveNum].price * value
       },
       priceClick: function (index) {
         this.priceActiveNum = index
-        this.totalPrice = this.detailDisplayInfo.priceList[index] * this.num
+        this.totalPrice = this.showInfo.showPrices[index].price * this.num
       }
+    },
+    mounted (){
+//      this.totalPrice = this.priceList[0].price
     }
   }
 </script>

@@ -1,18 +1,18 @@
 <template>
-  <div class="choose-show-display">
+  <div class="choose-show-display" @click="toDetailPage">
     <div class="choose-show-content">
-      <img :src="chooseShowInfo.posterUrl">
+      <img :src="chooseShowInfo.poster">
       <div class="choose-show-detail">
-        <div class="choose-show-title">{{chooseShowInfo.title}}</div>
-        <div class="choose-show-intro">{{chooseShowInfo.intro}}</div>
+        <div class="choose-show-title">{{chooseShowInfo.name}}</div>
+        <div class="choose-show-intro">{{chooseShowInfo.introduce}}</div>
         <div class="choose-show-tag">
           <el-tag type="danger" size="medium">售票中</el-tag>
         </div>
-        <div class="choose-show-time">{{chooseShowInfo.time}}</div>
+        <div class="choose-show-time">{{chooseShowInfo.start_time}}</div>
         <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end">
-          <span class="choose-show-place">{{chooseShowInfo.place}}</span>
+          <span class="choose-show-place">{{chooseShowInfo.address}}</span>
           <span class="choose-show-price">
-            <span style="font-size: large;font-weight: bolder;margin-right: 5px">{{chooseShowInfo.price}}</span>元起
+            <span style="font-size: large;font-weight: bolder;margin-right: 5px">{{price}}</span>元起
           </span>
         </div>
       </div>
@@ -23,16 +23,32 @@
 <script>
   export default{
     props: ['chooseShowInfo'],
+    computed: {
+      price: function () {
+        var prices = []
+        for (var i = 0; i < this.chooseShowInfo.showPrices.length; i++){
+          prices[i] = this.chooseShowInfo.showPrices[i].price
+        }
+        var compare = function (x, y) {
+          if (x < y) {
+            return -1;
+          } else if (x > y) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+        prices.sort(compare)
+        return prices[0]
+      }
+    },
     data () {
       return{
-//        chooseShowInfo: {
-//          posterUrl:'https://picsum.photos/400/601/?random',
-//          title:'【上海站】上海杂技团《欢乐马戏》',
-//          intro: '美是魅力，丑是乐，欢乐马戏全都有',
-//          time: '2018.3.31 19:30',
-//          place: '上海梅赛德斯奔驰文化中心',
-//          price: 322
-//        }
+      }
+    },
+    methods: {
+      toDetailPage: function () {
+        this.$router.push({name: 'Detail',params: {id: this.chooseShowInfo.show_id}})
       }
     }
   }
@@ -44,7 +60,7 @@
     position: relative;
     display: inline-block;
     width: 45%;
-    height: 250px;
+    height: 260px;
     cursor: pointer;
   }
 
@@ -91,6 +107,9 @@
     color: #aaaaaa;
     font-size: 12px;
     margin-bottom: 25px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
   }
 
   .choose-show-tag{

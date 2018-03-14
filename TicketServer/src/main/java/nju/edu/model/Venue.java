@@ -95,4 +95,6 @@ public class Venue {
         this.seats.add(seat);
         seat.setVenue(this);
     }
+
+    public Venue(){}
 }

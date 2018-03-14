@@ -1,6 +1,7 @@
 package nju.edu.serviceImpl;
 
 import nju.edu.model.Show;
+import nju.edu.repositoty.ShowPriceRepository;
 import nju.edu.repositoty.ShowRepository;
 import nju.edu.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ public class ShowServiceImpl implements ShowService{
                 hots.add(allShow.get(allShow.size() - i));
             }
         }
+
         return hots;
     }
 }

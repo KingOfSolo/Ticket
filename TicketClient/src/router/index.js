@@ -17,7 +17,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/Main',
       name: 'Main',
       component: Main,
       children: [
@@ -27,7 +27,7 @@ export default new Router({
           component: Home
         },
         {
-          path: '/Choose',
+          path: '/Choose/:type',
           name:'Choose',
           component:Choose
         },

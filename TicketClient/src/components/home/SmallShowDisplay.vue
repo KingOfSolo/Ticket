@@ -1,12 +1,12 @@
 <template>
   <div class="small-show-display">
-    <img :src="smallShowDisplay.posterUrl"/>
+    <img :src="smallShowDisplay.poster"/>
     <div class="small-show-display-content">
-      <div class="small-show-display-title">{{smallShowDisplay.title}}</div>
-      <div class="small-show-display-time">{{smallShowDisplay.time}}</div>
-      <div class="small-show-display-place">{{smallShowDisplay.place}}</div>
+      <div class="small-show-display-title">{{smallShowDisplay.name}}</div>
+      <div class="small-show-display-time">{{smallShowDisplay.start_time}}</div>
+      <div class="small-show-display-place">{{smallShowDisplay.address}}</div>
       <div class="small-show-display-price">
-        <span style="font-size: large;font-weight: bolder;margin-right: 5px">{{smallShowDisplay.price}}</span>元起
+        <span style="font-size: large;font-weight: bolder;margin-right: 5px">{{price}}</span>元起
       </div>
     </div>
   </div>
@@ -15,15 +15,27 @@
 <script>
   export default{
     props: ['smallShowDisplay'],
+    computed:{
+      price : function () {
+        var prices = []
+        for (var i = 0; i < this.smallShowDisplay.showPrices.length; i++){
+          prices[i] = this.smallShowDisplay.showPrices[i].price
+        }
+        var compare = function (x, y) {
+          if (x < y) {
+            return -1;
+          } else if (x > y) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+        prices.sort(compare)
+        return prices[0]
+      }
+    },
     data () {
       return {
-        smallShowDisplay: {
-          posterUrl: 'https://picsum.photos/200/300/?random',
-          title: '【上海站】世界经典原版音乐剧《猫》CATS',
-          time: '2018.03.08 19:30',
-          place: '上海梅赛德斯奔驰文化中心',
-          price: 391
-        }
       }
     }
   }

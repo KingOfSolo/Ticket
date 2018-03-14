@@ -5,7 +5,7 @@
       <span class="hot-show-head-more">查看更多></span>
     </div>
     <div class="hot-show-container" style="text-align: left">
-        <hot-show-display v-for="item in hotShowInfoList" :key="item" :hot-show-info="item"></hot-show-display>
+        <hot-show-display v-for="(item,index) in hotShowInfoList" :key="index" :hot-show-info="item"></hot-show-display>
     </div>
   </div>
 </template>

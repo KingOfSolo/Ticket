@@ -1,6 +1,6 @@
 <template>
   <div id="detail">
-    <detail-display></detail-display>
+    <detail-display :show-info="showInfo"></detail-display>
   </div>
 </template>
 
@@ -14,7 +14,19 @@
     },
     data () {
       return {
+        showInfo: {}
       }
+    },
+    mounted (){
+      var self = this
+      this.$http({
+        method: 'post',
+        dataType: 'JSONP',
+        url: '/Show/id/'+this.$route.params.id
+      }).then(function (res) {
+        console.log(res)
+        self.showInfo = res.data
+      })
     }
   }
 </script>

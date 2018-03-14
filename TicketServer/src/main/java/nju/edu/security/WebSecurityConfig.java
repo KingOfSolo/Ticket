@@ -32,6 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 // 所有 /login 的POST请求 都放行
                 .antMatchers(HttpMethod.POST, "/User/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/Show/type/{type}").permitAll()
+                .antMatchers(HttpMethod.POST,"/Show/id/{id}").permitAll()
                 // 权限检查
                 .antMatchers("/User/hello").hasAuthority("AUTH_WRITE")
                 // 角色检查

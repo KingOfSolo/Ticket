@@ -1,11 +1,11 @@
 <template>
   <div class="big-show-display" v-on:mouseenter="bigShowEnter" v-on:mouseleave="bigShowLeave">
-    <img :src="bigShowInfo.posterUrl"/>
+    <img :src="bigShowInfo.poster"/>
     <div class="big-show-display-top-mask mask" :class="{maskOpacity: bigShowIsHover}">
-      <div>{{bigShowInfo.title}}</div>
+      <div>{{bigShowInfo.name}}</div>
     </div>
     <div class="big-show-display-bottom-mask mask" :class="{maskOpacity: bigShowIsHover}">
-      <span style="font-size: large;font-weight: bolder;margin-right: 5px">{{bigShowInfo.price}}</span>元起
+      <span style="font-size: large;font-weight: bolder;margin-right: 5px">{{price}}</span>元起
     </div>
   </div>
 </template>
@@ -13,6 +13,25 @@
 <script>
   export default{
     props: ['bigShowInfo'],
+    computed:{
+      price : function () {
+        var prices = []
+        for (var i = 0; i < this.bigShowInfo.showPrices.length; i++){
+          prices[i] = this.bigShowInfo.showPrices[i].price
+        }
+        var compare = function (x, y) {
+          if (x < y) {
+            return -1;
+          } else if (x > y) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+        prices.sort(compare)
+        return prices[0]
+      }
+    },
     data () {
       return{
         bigShowIsHover: false

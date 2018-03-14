@@ -17,7 +17,7 @@
       }
     },
     mounted () {
-      this.$router.push({name: 'Main'})
+      this.$router.push({name: 'Home'})
     }
   }
 </script>

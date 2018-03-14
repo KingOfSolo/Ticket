@@ -56,4 +56,6 @@ public class Seat {
         this.seat_name = seat_name;
         this.number = number;
     }
+
+    public Seat(){}
 }
