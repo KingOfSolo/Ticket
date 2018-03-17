@@ -24,7 +24,9 @@ public class Venue {
     private String name;
     @Column(name = "address")
     private String address;
-    @OneToMany(mappedBy="venue",cascade = javax.persistence.CascadeType.ALL)
+    @Column(name = "state")
+    private int state;
+    @OneToMany(mappedBy="venue",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Seat> seats = new HashSet<>();
 
     public int getVenue_id() {
@@ -75,6 +77,14 @@ public class Venue {
         this.address = address;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public Set<Seat> getSeats() {
         return seats;
     }
@@ -83,12 +93,13 @@ public class Venue {
         this.seats = seats;
     }
 
-    public Venue(String identification, String email, String password, String name, String address) {
+    public Venue(String identification, String email, String password, String name, String address, int state) {
         this.identification = identification;
         this.email = email;
         this.password = password;
         this.name = name;
         this.address = address;
+        this.state = state;
     }
 
     public void addSeat(Seat seat){

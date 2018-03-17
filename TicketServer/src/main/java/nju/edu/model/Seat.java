@@ -1,5 +1,7 @@
 package nju.edu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -16,6 +18,7 @@ public class Seat {
     private String seat_name;
     @Column(name = "number")
     private int number;
+    @JsonIgnore
     @ManyToOne(cascade=CascadeType.ALL,optional=false)
     @JoinColumn(name="venue_id")
     private Venue venue;

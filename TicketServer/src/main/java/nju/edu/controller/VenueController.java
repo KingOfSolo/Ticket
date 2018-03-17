@@ -1,12 +1,21 @@
 package nju.edu.controller;
 
+import nju.edu.model.Seat;
 import nju.edu.model.Show;
 import nju.edu.model.ShowPrice;
+import nju.edu.model.Venue;
 import nju.edu.repositoty.ShowRepository;
+import nju.edu.repositoty.VenueRepository;
+import nju.edu.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
 
 /**
  * Created by xiaoJun on 2018/3/8.
@@ -17,9 +26,31 @@ public class VenueController{
     @Autowired
     private ShowRepository showRepository;
 
+    @Autowired
+    private VenueRepository venueRepository;
+
+    @Autowired
+    private VenueService venueService;
+
     @RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public String register(){
-        return null;
+    public Venue register(@RequestBody Venue venue){
+        Venue venue1 = new Venue("3855202", venue.getEmail(), venue.getPassword(),
+                venue.getName(), venue.getAddress(), 0);
+
+        for (Seat seat: venue.getSeats()){
+            venue1.addSeat(new Seat(seat.getSeat_name(), seat.getNumber()));
+
+        }
+        return venueRepository.save(venue1);
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Venue login(HttpServletRequest request){
+        String identification = request.getParameter("identification");
+        String password = request.getParameter("password");
+
+        System.out.println(identification + "   " + password);
+        return venueService.login(identification, password);
     }
 
     /**

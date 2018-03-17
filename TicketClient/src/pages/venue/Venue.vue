@@ -31,7 +31,7 @@
       VenueData
     },
     data () {
-      return{
+      return{                                                                                                                                                
         tabPosition: 'left',
         showInfo: true,
         venueInfo: {

@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/User/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/Show/type/{type}").permitAll()
                 .antMatchers(HttpMethod.POST,"/Show/id/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/Venue/login").permitAll()
                 // 权限检查
                 .antMatchers("/User/hello").hasAuthority("AUTH_WRITE")
                 // 角色检查
