@@ -12,4 +12,6 @@ public interface VenueRepository extends JpaRepository<Venue,Integer>{
     List<Venue> findByIdentificationAndPassword(String identification, String password);
 
     Venue findOne(int venue_id);
+
+    List<Venue> findByState(int state);
 }

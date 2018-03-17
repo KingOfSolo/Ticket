@@ -9,10 +9,8 @@ import nju.edu.repositoty.VenueRepository;
 import nju.edu.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Iterator;
@@ -32,11 +30,12 @@ public class VenueController{
     @Autowired
     private VenueService venueService;
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json;charset=UTF-8",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Venue register(@RequestBody Venue venue){
         Venue venue1 = new Venue("3855202", venue.getEmail(), venue.getPassword(),
                 venue.getName(), venue.getAddress(), 0);
-
+//        System.out.println(venue.getPassword());
         for (Seat seat: venue.getSeats()){
             venue1.addSeat(new Seat(seat.getSeat_name(), seat.getNumber()));
 
@@ -44,11 +43,13 @@ public class VenueController{
         return venueRepository.save(venue1);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Venue login(HttpServletRequest request){
-        String identification = request.getParameter("identification");
-        String password = request.getParameter("password");
-
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8",
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public @ResponseBody Venue login(Venue venue){
+//        String identification = request.getParameter("identification");
+//        String password = request.getParameter("password");
+        String identification = venue.getIdentification();
+        String password = venue.getPassword();
         System.out.println(identification + "   " + password);
         return venueService.login(identification, password);
     }

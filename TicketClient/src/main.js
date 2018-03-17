@@ -8,6 +8,7 @@ import iView from 'iview'
 import 'element-ui/lib/theme-chalk/index.css'
 import './theme.css'
 import axiosService from '../axiosService'
+import 'jquery'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axiosService

@@ -5,8 +5,8 @@
         <div class="content">
           <h2 style="text-align: center">掠影</h2>
           <div style="text-align: center;margin-top: 20px">
-            <input class="venue-login-input" placeholder="识别码"/>
-            <input class="venue-login-input" placeholder="密码"/>
+            <input class="venue-login-input" placeholder="识别码" v-model="identification"/>
+            <input class="venue-login-input" placeholder="密码" v-model="password"/>
             <button class="venue-login-button" @click="venueLogin">登录</button>
             <div class="more" @click="toSignUp">场馆注册></div>
           </div>
@@ -20,19 +20,22 @@
 
 <script>
   import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item";
+  import qs from 'qs'
   export default{
     components: {ElFormItem},
     data () {
       return {
         backgroundStyleIn:{
-          backgroundImage: "url(https://picsum.photos/400/700)",
+          backgroundImage: "url(https://picsum.photos/400/701)",
           backgroundPosition: '0% 0%'
         },
         backgroundStyleUp:{
           backgroundImage: "url(https://picsum.photos/400/701)",
           backgroundPosition: '0% 0%'
         },
-        sign: true
+        sign: true,
+        identification: '',
+        password: ''
       }
     },
     methods: {
@@ -45,7 +48,70 @@
         this.$router.push({name: 'SignUp'})
       },
       venueLogin: function () {
-        this.$router.push({name: 'Venue',params: {venueId: '00000001'}})
+        var self = this
+        console.log(this.identification)
+        console.log(this.password)
+        var info = JSON.stringify({
+          identification: this.identification,
+          password: this.password
+        })
+        $.ajax({
+          url: 'http://localhost:8075/TicketServer/Venue/login',
+          type: 'post',
+          dataType: 'json',
+          contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+          data: {
+              identification: this.identification,
+              password: this.password
+          },
+          success: function (data) {
+            console.log(data)
+            self.$router.push({name: 'Venue',params: {venueId: data.venue_id}})
+          }
+        })
+//        $.post('http://localhost:8075/TicketServer/Venue/login',JSON.stringify({
+//          identification: this.identification,
+//          password: this.password
+//        }),function (res) {
+//          console(res)
+//        })
+//        this.$http({
+//          header:{
+//            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+//          },
+//          method: 'post',
+//          dataType: 'JSONP',
+//          url: '/Venue/login',
+//          data: {
+//            identification: this.identification,
+//            password: this.password
+//          }
+//        }).then(function (res) {
+//          console.log(res)
+//        })
+//        this.$http({
+//          method: 'post',
+//          dataType: 'JSONP',
+//          url: '/Venue/login',
+//          params: {
+//            identification: this.identification,
+//            password: this.password
+//          }
+//        }).then(function (res) {
+//          console.log(res)
+//        })
+//        this.$http.post('/Venue/login', qs.stringify({
+//          identification: this.identification,
+//          password: this.password
+//        })).then(function (res) {
+//          console.log(res)
+//        })
+//        axios.post('/Venue/login',qs.stringify({
+//          identification: this.identification,
+//          password: this.password
+//        })).then(function (res) {
+//          console.log(res)
+//        })
       }
     }
   }
