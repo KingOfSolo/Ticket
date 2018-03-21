@@ -84,23 +84,23 @@
       },
       submit(){
         console.log(this.form)
-        var data = JSON.stringify(this.form)
-        $.ajax({
-          url: 'http://localhost:8075/TicketServer/Venue/register',
-          type: 'post',
-          dataType: 'json',
-//          contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-          data: JSON.stringify({
-            email: this.form.email,
-            password: this.form.password,
-            name: this.form.name,
-            address: this.form.address,
-            seats: this.form.seats
-          }),
-          success: function (data) {
-            console.log(data)
-          }
-        })
+        var data = this.form
+//        $.ajax({
+//          url: 'http://localhost:8075/TicketServer/Venue/register',
+//          type: 'post',
+//          dataType: 'json',
+//          contentType: 'application/json; charset=utf-8',
+//          data: {
+//            "email": this.form.email,
+//            "password": this.form.password,
+//            "name": this.form.name,
+//            "address": this.form.address,
+//            "seats": this.form.seats
+//          },
+//          success: function (data) {
+//            console.log(data)
+//          }
+//        })
 //        this.$http.post('/Venue/register', data, {
 //          headers:{
 //            'Content-Type':'application/json'   //hearder 很重要，Content-Type 要写对
@@ -111,33 +111,19 @@
 //            type: 'success'
 //          })
 //        })
-//        this.$http({
-//          header: {
-//            "contentType": 'application/json',
-//          },
-//          method: 'post',
-////          dataType: 'JSONP',
-//          url: '/Venue/register',
-//          data: {
-//            email: '944125893@qq.com',
-//            password: '123456',
-//            name: '回火',
-//            address: '是打发撒旦法',
-//            seats: [
-//              {
-//                seat_name: '看台一',
-//                number: 100
-//              }
-//            ]
-//          }
-//        }).then(function (res) {
-//          this.$message({
-//            message:'申请已经提交，等待Tickets经理审核，审核通过后会有邮件通知',
-//            type: 'success'
-//          })
-//        }).catch(function (err) {
-//          alert(err)
-//        })
+        var self = this
+        this.$http({
+          method: 'post',
+          url: '/Venue/register',
+          data: this.form
+        }).then(function (res) {
+          self.$message({
+            message:'申请已经提交，等待Tickets经理审核，审核通过后会有邮件通知',
+            type: 'success'
+          })
+        }).catch(function (err) {
+          console.log(err.request)
+        })
       },
       handleClose(seat) {
         this.form.seats.splice(this.form.seats.indexOf(seat), 1);

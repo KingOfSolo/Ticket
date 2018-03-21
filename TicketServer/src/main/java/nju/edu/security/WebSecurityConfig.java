@@ -31,20 +31,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 所有 / 的所有请求 都放行
                 .antMatchers("/").permitAll()
                 // 所有 /login 的POST请求 都放行
-                .antMatchers(HttpMethod.POST, "/User/login").permitAll()
-                .antMatchers(HttpMethod.POST,"/Show/type/{type}").permitAll()
-                .antMatchers(HttpMethod.POST,"/Show/id/{id}").permitAll()
-                .antMatchers(HttpMethod.POST,"/Venue/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/Venue/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/Manage/checkList").permitAll()
-                .antMatchers(HttpMethod.POST,"/Manage/email/{venueId}").permitAll()
-                .antMatchers(HttpMethod.GET,"/Manage/active").permitAll()
+//                .antMatchers(HttpMethod.POST, "/User/login").permitAll()
+//                .antMatchers(HttpMethod.POST,"/Show/type/{type}").permitAll()
+//                .antMatchers(HttpMethod.POST,"/Show/id/{id}").permitAll()
+//                .antMatchers(HttpMethod.POST,"/Venue/register").permitAll()
+//                .antMatchers(HttpMethod.POST, "/Venue/login").permitAll()
+//                .antMatchers(HttpMethod.POST, "/Manage/checkList").permitAll()
+//                .antMatchers(HttpMethod.POST,"/Manage/email/{venueId}").permitAll()
+//                .antMatchers(HttpMethod.GET,"/Manage/active").permitAll()
                 // 权限检查
                 .antMatchers("/User/hello").hasAuthority("AUTH_WRITE")
                 // 角色检查
                 .antMatchers("/User/world").hasRole("ADMIN")
                 // 所有请求需要身份认证
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 // 添加一个过滤器 所有访问 /login 的请求交给 JWTLoginFilter 来处理 这个类处理所有的JWT相关内容
                 .addFilterBefore(new JWTLoginFilter("/User/login", authenticationManager()),

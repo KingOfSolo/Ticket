@@ -30,9 +30,9 @@ public class VenueController{
     @Autowired
     private VenueService venueService;
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json;charset=UTF-8",
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public Venue register(@RequestBody Venue venue){
+        System.out.print("here   ----------------");
         Venue venue1 = new Venue("3855202", venue.getEmail(), venue.getPassword(),
                 venue.getName(), venue.getAddress(), 0);
 //        System.out.println(venue.getPassword());

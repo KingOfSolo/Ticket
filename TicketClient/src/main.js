@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import Vuex from 'vuex'
 import router from './router'
 import ElementUI from 'element-ui'
 import iView from 'iview'
@@ -15,6 +16,7 @@ Vue.prototype.$http = axiosService
 
 Vue.use(ElementUI)
 Vue.use(iView)
+Vue.use(Vuex)
 
 /* eslint-disable no-new */
 new Vue({
