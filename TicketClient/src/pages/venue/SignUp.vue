@@ -84,33 +84,6 @@
       },
       submit(){
         console.log(this.form)
-        var data = this.form
-//        $.ajax({
-//          url: 'http://localhost:8075/TicketServer/Venue/register',
-//          type: 'post',
-//          dataType: 'json',
-//          contentType: 'application/json; charset=utf-8',
-//          data: {
-//            "email": this.form.email,
-//            "password": this.form.password,
-//            "name": this.form.name,
-//            "address": this.form.address,
-//            "seats": this.form.seats
-//          },
-//          success: function (data) {
-//            console.log(data)
-//          }
-//        })
-//        this.$http.post('/Venue/register', data, {
-//          headers:{
-//            'Content-Type':'application/json'   //hearder 很重要，Content-Type 要写对
-//          }
-//        }).then(function (res) {
-//          this.$message({
-//            message:'申请已经提交，等待Tickets经理审核，审核通过后会有邮件通知',
-//            type: 'success'
-//          })
-//        })
         var self = this
         this.$http({
           method: 'post',

@@ -12,12 +12,12 @@
       </el-form-item>
       <el-form-item label="座位情况">
         <el-tag
-          :key="tag"
-          v-for="tag in venueInfo.tagList"
+          :key="index"
+          v-for="(seat,index) in venueInfo.tagList"
           closable
           :disable-transitions="false"
-          @close="handleClose(tag)">
-          {{tag}}
+          @close="handleClose(seat)">
+          {{seat.seat_name}}
         </el-tag>
         <el-input
           class="input-new-tag"

@@ -19,7 +19,7 @@ public class VenueServiceImpl implements VenueService{
     private VenueRepository venueRepository;
 
     @Override
-    public Venue login(String identification, String password) {
+    public String login(String identification, String password) {
         if (venueRepository.findByIdentificationAndPassword(identification,password).isEmpty()){
             return null;
         }
@@ -27,6 +27,6 @@ public class VenueServiceImpl implements VenueService{
         if (venue.getState() == 0){
             return null;
         }
-        return venue;
+        return String.valueOf(venue.getVenue_id());
     }
 }

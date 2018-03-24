@@ -6,22 +6,24 @@
       </el-form-item>
       <el-form-item label="演出时间" required>
         <el-date-picker
-          v-model="showInfo.startDate"
+          v-model="showInfo.start_time"
+          value-format="yyyy-MM-dd HH:mm "
           type="datetime"
           placeholder="选择开始日期时间">
         </el-date-picker>
         <span class="line"></span>
         <el-date-picker
-          v-model="showInfo.endDate"
+          v-model="showInfo.end_time"
+          value-format="yyyy-MM-dd HH:mm"
           type="datetime"
           placeholder="选择结束日期时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="演出价位" required >
         <div class="price-container">
-          <div v-for="(tag, index) in venueInfo.tagList" :key="index" class="price-input">
-            <el-tag>{{tag}}</el-tag>
-            <el-input v-model="showInfo.priceList[index]" size="medium" placeholder="元"></el-input>
+          <div v-for="(seat, index) in venueInfo.seats" :key="index" class="price-input">
+            <el-tag>{{seat.seat_name}}</el-tag>
+            <el-input v-model="showInfo.showPrices[index].price" size="medium" placeholder="元" class="price-input-item"></el-input>
           </div>
         </div>
 
@@ -30,33 +32,34 @@
         <el-select v-model="showInfo.type" placeholder="请选择">
           <el-option
             v-for="item in typeList"
-            :key="item"
-            :label="item"
-            :value="item">
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="演出海报" required>
         <el-upload
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://localhost:8075/TicketServer/Venue/uploadPoster"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
-          :on-remove="handleRemove">
+          :on-remove="handleRemove"
+          :on-success="handleSuccess">
           <i class="el-icon-plus"></i>
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="showInfo.posterUrl" alt="">
+          <img width="100%" :src="showInfo.poster" alt="">
         </el-dialog>
       </el-form-item>
       <el-form-item label="演出简介">
         <el-input
           type="textarea"
           :rows="4"
-          v-model="showInfo.intro">
+          v-model="showInfo.introduce">
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">确认发布</el-button>
+        <el-button type="primary" @click="release">确认发布</el-button>
       </el-form-item>
     </el-form>
 
@@ -75,16 +78,30 @@
       return{
         labelPosition: 'left',
         showInfo:{
+          venue_id: '',
+          address: '',
           name: '',
-          startDate: '',
-          endDate: '',
-          priceList: [],
+          start_time: '',
+          end_time: '',
+          showPrices: [
+            {price: ''},{price: ''},{price: ''},{price: ''},{price: ''},{price: ''},
+            {price: ''},{price: ''},{price: ''},{price: ''},{price: ''},{price: ''}
+          ],
           type: '',
-          posterUrl:'',
-          intro: ''
+          poster:'',
+          introduce: ''
         },
-        typeList: ['演唱会', '话剧歌剧', '体育赛事', '音乐会', '儿童亲子', '舞蹈芭蕾', '展览休闲', '曲艺杂谈'],
-        dialogVisible: false
+        typeList: [
+          {value:1, label:'演唱会'},
+          {value:2, label:'体育赛事'},
+          {value:3, label:'音乐会'},
+          {value:4, label:'儿童亲子'},
+          {value:5, label:'舞蹈芭蕾'},
+          {value:6, label:'展览休闲'},
+          {value:7, label:'曲艺杂谈'}
+          ],
+        dialogVisible: false,
+        priceLength: 0
       }
     },
     methods: {
@@ -92,9 +109,62 @@
         console.log(file, fileList);
       },
       handlePictureCardPreview(file) {
-        this.showInfo.posterUrl = file.url;
+        console.log(file.url)
+        this.showInfo.poster = file.url;
         this.dialogVisible = true;
+      },
+      handleSuccess(response, file, fileList){
+        this.showInfo.poster = response
+        console
+      },
+      release(){
+        var self = this
+        this.priceLength = this.venueInfo.seats.length
+        this.showInfo.venue_id = this.venueInfo.venue_id
+        this.showInfo.address = this.venueInfo.name
+        let array = []
+        for(let i = 0; i < this.venueInfo.seats.length; i++){
+          array.push({
+            seat_name: this.venueInfo.seats[i].seat_name,
+            price: this.showInfo.showPrices[i].price,
+            total_num: this.venueInfo.seats[i].number,
+            remain_num: this.venueInfo.seats[i].number
+          })
+        }
+        this.showInfo.showPrices = array
+        console.log(this.showInfo)
+        this.$http({
+          method: 'post',
+          url: '/Venue/releaseShow',
+          data: this.showInfo
+        }).then(function (res) {
+          self.$message({
+            message:'活动发布成功',
+            type: 'success'
+          })
+        })
+
       }
+    },
+//    beforeCreated(){
+//      for(let i = 0; i < this.venueInfo.seats.length; i++){
+//        this.showInfo.showPrices.push({
+//          name: this.venueInfo.seats[i].seat_name,
+//          price: '',
+//          total_num: this.venueInfo.seats[i].number,
+//          remain_num: this.venueInfo.seats[i].number
+//        })
+//      }
+//    },
+    mounted(){
+//      for(let i = 0; i < this.venueInfo.seats.length; i++){
+//          this.showInfo.showPrices.push({
+//            seat_name: this.venueInfo.seats[i].seat_name,
+//            price: '',
+//            total_num: this.venueInfo.seats[i].number,
+//            remain_num: this.venueInfo.seats[i].number
+//          })
+//      }
     }
   }
 </script>

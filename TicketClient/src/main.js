@@ -14,6 +14,7 @@ import 'jquery'
 Vue.config.productionTip = false
 Vue.prototype.$http = axiosService
 
+
 Vue.use(ElementUI)
 Vue.use(iView)
 Vue.use(Vuex)

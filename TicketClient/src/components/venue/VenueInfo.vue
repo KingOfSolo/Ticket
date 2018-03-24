@@ -12,9 +12,9 @@
       </el-form-item>
       <el-form-item label="座位情况">
         <el-tag
-          :key="tag"
-          v-for="tag in venueInfo.tagList">
-          {{tag}}
+          :key="index"
+          v-for="(seat,index) in venueInfo.seats">
+          {{seat.seat_name}}
         </el-tag>
       </el-form-item>
       <el-form-item>

@@ -8,7 +8,7 @@
       </el-tab-pane>
       <el-tab-pane name="second">
         <span slot="label"><i class="el-icon-tickets"></i>发布计划</span>
-        <release-plan :venueInfo="venueInfo"></release-plan>
+        <release-plan :venue-info="venueInfo"></release-plan>
       </el-tab-pane>
       <el-tab-pane name="third">
         <span slot="label"><i class="el-icon-date"></i>统计数据</span>
@@ -49,6 +49,16 @@
       showInformation: function () {
         this.showInfo = true
       }
+    },
+    mounted (){
+      var self = this
+      this.$http({
+        method: 'post',
+        url: '/Venue/id/'+this.$route.params.venueId
+      }).then(function (res) {
+        console.log(res)
+        self.venueInfo = res.data
+      })
     }
   }
 </script>

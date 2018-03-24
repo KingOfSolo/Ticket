@@ -49,69 +49,17 @@
       },
       venueLogin: function () {
         var self = this
-        console.log(this.identification)
-        console.log(this.password)
-        var info = JSON.stringify({
-          identification: this.identification,
-          password: this.password
-        })
-        $.ajax({
-          url: 'http://localhost:8075/TicketServer/Venue/login',
-          type: 'post',
-          dataType: 'json',
-          contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        this.$http({
+          method: 'post',
+          url: '/Venue/login',
           data: {
-              identification: this.identification,
-              password: this.password
-          },
-          success: function (data) {
-            console.log(data)
-            self.$router.push({name: 'Venue',params: {venueId: data.venue_id}})
+            identification: this.identification,
+            password: this.password
           }
+        }).then(function (res) {
+          console.log(res)
+          self.$router.push({name: 'Venue',params: {venueId: res.data}})
         })
-//        $.post('http://localhost:8075/TicketServer/Venue/login',JSON.stringify({
-//          identification: this.identification,
-//          password: this.password
-//        }),function (res) {
-//          console(res)
-//        })
-//        this.$http({
-//          header:{
-//            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-//          },
-//          method: 'post',
-//          dataType: 'JSONP',
-//          url: '/Venue/login',
-//          data: {
-//            identification: this.identification,
-//            password: this.password
-//          }
-//        }).then(function (res) {
-//          console.log(res)
-//        })
-//        this.$http({
-//          method: 'post',
-//          dataType: 'JSONP',
-//          url: '/Venue/login',
-//          params: {
-//            identification: this.identification,
-//            password: this.password
-//          }
-//        }).then(function (res) {
-//          console.log(res)
-//        })
-//        this.$http.post('/Venue/login', qs.stringify({
-//          identification: this.identification,
-//          password: this.password
-//        })).then(function (res) {
-//          console.log(res)
-//        })
-//        axios.post('/Venue/login',qs.stringify({
-//          identification: this.identification,
-//          password: this.password
-//        })).then(function (res) {
-//          console.log(res)
-//        })
       }
     }
   }
