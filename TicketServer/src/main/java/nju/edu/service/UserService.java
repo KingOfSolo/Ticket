@@ -14,7 +14,7 @@ public interface UserService {
 
     String registerUser(User user);
 
-    User login(String name, String password);
+    User login(String email, String password);
 
     User findByNameAndPassword(String name, String password);
 }

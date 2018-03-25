@@ -32,6 +32,12 @@ public class User implements Serializable{
     @Column(name = "type")
     private int type;
 
+    @Column(name = "level")
+    private int level;
+
+    @Column(name = "balance")
+    private int balance;
+
     public int getId() {
         return id;
     }
@@ -79,4 +85,22 @@ public class User implements Serializable{
     public void setType(int type) {
         this.type = type;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public User(){}
 }

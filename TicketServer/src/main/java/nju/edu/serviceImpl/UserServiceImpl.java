@@ -2,6 +2,7 @@ package nju.edu.serviceImpl;
 
 import nju.edu.dao.UserDao;
 import nju.edu.model.User;
+import nju.edu.repositoty.UserRepository;
 import nju.edu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ import javax.transaction.Transactional;
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public User findById(int id) {
@@ -34,12 +38,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User login(String name, String password) {
-        User user = userDao.findByNameAndPassword(name, password).get(0);
+    public User login(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email, password);
         if(user == null){
-
+            return null;
         }
-        return null;
+        return user;
     }
 
     @Override

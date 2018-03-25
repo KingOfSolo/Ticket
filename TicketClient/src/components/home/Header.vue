@@ -10,7 +10,7 @@
         </div>
       </div>
       <div v-if="isLogin">
-        <el-button type="text" class="header-button" @click="isLogin = false">登录</el-button>
+        <el-button type="text" class="header-button" @click="loginDialogVisible = true">登录</el-button>
       </div>
       <div v-else>
         <el-dropdown style="margin-left: 10px" @command="handleCommand">
@@ -24,13 +24,23 @@
         </el-dropdown>
       </div>
     </div>
+    <el-dialog
+      :visible.sync="loginDialogVisible"
+      width="430px"
+      :modal="isModal">
+      <login></login>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import ElDropdownItem from "../../../node_modules/element-ui/packages/dropdown/src/dropdown-item";
+  import Login from "./Login.vue"
   export default {
-    components: {ElDropdownItem},
+    components: {
+      ElDropdownItem,
+      Login
+    },
     data () {
       return {
         value1: '',
@@ -38,7 +48,8 @@
         isLogin: true,
         loginDialogVisible: false,
         showClose: false,
-        headUrl: 'https://picsum.photos/200/200'
+        headUrl: 'https://picsum.photos/200/200',
+        isModal: false
       }
     },
     methods: {
@@ -170,4 +181,13 @@
     margin-left: -70px;
     cursor: pointer;
   }
+
+  #header .el-dialog__body{
+    padding: 0;
+  }
+
+  #header .el-dialog__header{
+    display: none;
+  }
+
 </style>

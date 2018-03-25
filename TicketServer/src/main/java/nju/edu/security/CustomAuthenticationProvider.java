@@ -36,7 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
         if (userService == null){
             System.out.println(name + "  " + password);
         }
-        User user =this.userDao.findByNameAndPassword(name, password).get(0);
+        User user =this.userService.login(name, password);
         if (user == null){
             throw new BadAccountException("用户名或密码错误",BadAccountException.BAD_Credentials);
         }

@@ -4,10 +4,7 @@ import nju.edu.model.User;
 import nju.edu.service.UserService;
 import nju.edu.util.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -37,8 +34,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public String login(HttpServletRequest request){
-         return null;
+    public User login(@RequestBody User user){
+         return userService.login(user.getEmail(), user.getPassword());
     }
 
     @RequestMapping(value = "/hello", produces="application/json;charset=UTF-8")
