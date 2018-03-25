@@ -7,14 +7,21 @@ export const USER_SIGNOUT = 'USER_SIGNOUT' //退出登录
 
 export default {
   state: {
-    userId: sessionStorage.getItem('user') || null
+    user: JSON.parse(sessionStorage.getItem('user')),
+    isLogin: false
+  },
+  getters: {
+    user: state => state.user,
+    isLogin: state => state.isLogin
   },
   mutations: {
     [USER_SIGNIN](state, user) {
-      sessionStorage.setItem('user', user)
+      sessionStorage.setItem('user', JSON.stringify(user))
+      state.isLogin = true
     },
     [USER_SIGNOUT](state) {
       sessionStorage.removeItem('user')
+      state.isLogin = false
     }
   },
   actions: {

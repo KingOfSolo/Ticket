@@ -78,7 +78,7 @@
           data: this.loginData
         }).then(function (res) {
           console.log(res)
-          self.$store.dispatch('USER_SIGNIN',user)
+          self.$store.dispatch('USER_SIGNIN',res.data)
         }).catch(function (err) {
           alert(err)
         })

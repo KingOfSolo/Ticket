@@ -9,6 +9,7 @@ import iView from 'iview'
 import 'element-ui/lib/theme-chalk/index.css'
 import './theme.css'
 import axiosService from '../axiosService'
+import store from './store/index'
 import 'jquery'
 
 Vue.config.productionTip = false
@@ -23,6 +24,7 @@ Vue.use(Vuex)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

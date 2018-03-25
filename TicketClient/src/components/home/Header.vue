@@ -10,9 +10,6 @@
         </div>
       </div>
       <div v-if="isLogin">
-        <el-button type="text" class="header-button" @click="loginDialogVisible = true">登录</el-button>
-      </div>
-      <div v-else>
         <el-dropdown style="margin-left: 10px" @command="handleCommand">
           <span class="el-dropdown-link">
             <img id="head-portrait" :src="headUrl"/>
@@ -23,6 +20,10 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
+      <div v-else>
+        <el-button type="text" class="header-button" @click="loginDialogVisible = true">登录</el-button>
+      </div>
+
     </div>
     <el-dialog
       :visible.sync="loginDialogVisible"
@@ -35,17 +36,22 @@
 
 <script>
   import ElDropdownItem from "../../../node_modules/element-ui/packages/dropdown/src/dropdown-item";
+  import {mapGetters} from 'vuex'
   import Login from "./Login.vue"
   export default {
     components: {
       ElDropdownItem,
       Login
     },
+    computed: {
+      ...mapGetters({
+        isLogin: 'isLogin'
+      }),
+    },
     data () {
       return {
         value1: '',
         color: 'white',
-        isLogin: true,
         loginDialogVisible: false,
         showClose: false,
         headUrl: 'https://picsum.photos/200/200',
@@ -57,8 +63,7 @@
         if (command === 'a') {
           this.$router.push({name: 'User', params: {userId: '0001'}})
         } else if (command === 'd') {
-          var loginId = this.$cookie.get('loginId') + ''
-          this.$router.push({name: 'UserCenter', params: {userId: loginId}})
+          this.$store.dispatch('USER_SIGNOUT')
         } else if (command === 'c') {
           this.isLogin = true
           this.$router.push({name: 'Main'})
