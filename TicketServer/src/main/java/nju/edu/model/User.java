@@ -38,6 +38,9 @@ public class User implements Serializable{
     @Column(name = "balance")
     private int balance;
 
+    @Column(name = "state")
+    private int state;
+
     public int getId() {
         return id;
     }
@@ -100,6 +103,14 @@ public class User implements Serializable{
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public User(){}

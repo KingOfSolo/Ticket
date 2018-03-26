@@ -31,12 +31,12 @@
                     <label>邮箱</label>
                     <input type="text" id="register-email" class="textbox" v-model="registerData.email">
                     <label>昵称</label>
-                    <input type="password" id="register-password" class="textbox" v-model="registerData.name">
+                    <input id="register-password" class="textbox" v-model="registerData.name">
                     <label>密码</label>
                     <input type="password" id="register-password-conf" class="textbox" v-model="registerData.password">
                   </form>
                 </div>
-                <button type="submit" class="proceed">确认注册</button>
+                <button type="submit" class="proceed" @click="register">确认注册</button>
               </div>
             </div>
             <div id="toggle-tabs">
@@ -78,7 +78,30 @@
           data: this.loginData
         }).then(function (res) {
           console.log(res)
-          self.$store.dispatch('USER_SIGNIN',res.data)
+          if(res.data == ""){
+            self.$message({
+              message:'未找到用户或者用户未激活',
+              type: 'error'
+            })
+          }else{
+            self.$store.dispatch('USER_SIGNIN',res.data)
+            self.$emit('loginSuccess')
+          }
+
+        }).catch(function (err) {
+          alert(err)
+        })
+      },
+      register(){
+        var self = this
+        this.$http({
+          method: 'post',
+          url: '/User/register',
+          data: this.registerData
+        }).then(function (res) {
+          console.log(res)
+//          self.$store.dispatch('USER_SIGNIN',res.data)
+//          self.$emit('loginSuccess')
         }).catch(function (err) {
           alert(err)
         })

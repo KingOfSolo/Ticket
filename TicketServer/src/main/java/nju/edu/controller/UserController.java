@@ -1,6 +1,7 @@
 package nju.edu.controller;
 
 import nju.edu.model.User;
+import nju.edu.repositoty.UserRepository;
 import nju.edu.service.UserService;
 import nju.edu.util.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @RequestMapping(value = "/findById/id/{id}",method = RequestMethod.GET)
     public User findById(@PathVariable("id")String id){
         return userService.findById(Integer.parseInt(id));
     }
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public String register(HttpServletRequest request){
-        String name = request.getParameter("name");
-        String password = request.getParameter("password");
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
+    @RequestMapping(value = "/register",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public String register(@RequestBody User user){
         return userService.registerUser(user);
     }
 
@@ -37,6 +36,20 @@ public class UserController {
     public User login(@RequestBody User user){
          return userService.login(user.getEmail(), user.getPassword());
     }
+
+    @RequestMapping(value = "/verify/id/{id}",method = RequestMethod.GET)
+    public String verify(@PathVariable("id") int id){
+        User user = userService.findById(id);
+        user.setState(1);
+        userRepository.save(user);
+        return "验证成功";
+    }
+
+    @RequestMapping(value="/modify",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public User modify(@RequestBody User user){
+        return userRepository.save(user);
+    }
+
 
     @RequestMapping(value = "/hello", produces="application/json;charset=UTF-8")
     public String hello() {

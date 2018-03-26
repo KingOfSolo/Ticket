@@ -29,7 +29,7 @@
       :visible.sync="loginDialogVisible"
       width="430px"
       :modal="isModal">
-      <login></login>
+      <login v-on:loginSuccess = "loginSuccess"></login>
     </el-dialog>
   </div>
 </template>
@@ -45,7 +45,8 @@
     },
     computed: {
       ...mapGetters({
-        isLogin: 'isLogin'
+        isLogin: 'isLogin',
+        userInfo: 'user'
       }),
     },
     data () {
@@ -61,7 +62,7 @@
     methods: {
       handleCommand (command) {
         if (command === 'a') {
-          this.$router.push({name: 'User', params: {userId: '0001'}})
+          this.$router.push({name: 'User', params: {userId: this.userInfo.id}})
         } else if (command === 'd') {
           this.$store.dispatch('USER_SIGNOUT')
         } else if (command === 'c') {
@@ -71,6 +72,13 @@
           this.$cookie.delete('loginId')
         }
       },
+      loginSuccess(){
+        this.loginDialogVisible = false
+        this.$message({
+          message:'登录成功',
+          type: 'success'
+        })
+      }
     }
   }
 </script>

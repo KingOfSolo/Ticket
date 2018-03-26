@@ -3,25 +3,31 @@
  */
 export const USER_SIGNIN = 'USER_SIGNIN' //登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' //退出登录
+export const USER_MODIFY = 'USER_MODIFY' //更改信息
 
 
 export default {
   state: {
-    user: JSON.parse(sessionStorage.getItem('user')),
-    isLogin: false
+    user: JSON.parse(window.localStorage.getItem('user')),
+    isLogin: JSON.parse(window.localStorage.getItem('isLogin')) || {isLogin: false}
   },
   getters: {
     user: state => state.user,
-    isLogin: state => state.isLogin
+    isLogin: state => state.isLogin.isLogin
   },
   mutations: {
     [USER_SIGNIN](state, user) {
-      sessionStorage.setItem('user', JSON.stringify(user))
-      state.isLogin = true
+      window.localStorage.setItem('user', JSON.stringify(user))
+      state.isLogin.isLogin = true
+      window.localStorage.setItem('isLogin', JSON.stringify(state.isLogin))
     },
     [USER_SIGNOUT](state) {
-      sessionStorage.removeItem('user')
-      state.isLogin = false
+      window.localStorage.removeItem('user')
+      state.isLogin.isLogin = false
+      window.localStorage.removeItem(('isLogin',JSON.stringify(state.isLogin)))
+    },
+    [USER_MODIFY](state, user) {
+      window.localStorage.setItem('user', JSON.stringify(user))
     }
   },
   actions: {
@@ -30,6 +36,9 @@ export default {
     },
     [USER_SIGNOUT]({commit}) {
       commit(USER_SIGNOUT)
+    },
+    [USER_MODIFY]({commit}, user) {
+      commit(USER_MODIFY, user)
     }
   }
 }
