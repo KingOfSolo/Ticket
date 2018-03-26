@@ -19,7 +19,7 @@
           <span style="font-size: 14px;color: #EA2000">元</span>
         </div>
         <div class="detail-display-button">
-          <div>立即购票</div>
+          <div @click="buy">立即购票</div>
           <div>选座购票</div>
         </div>
       </div>
@@ -65,6 +65,9 @@
       priceClick: function (index) {
         this.priceActiveNum = index
         this.totalPrice = this.showInfo.showPrices[index].price * this.num
+      },
+      buy(){
+        this.$router.push({name: 'OrderConfirm'})
       }
     },
     mounted (){

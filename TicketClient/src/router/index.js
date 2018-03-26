@@ -5,6 +5,7 @@ import Home from '@/pages/user/HomePage'
 import Choose from '@/pages/user/ChoosePage'
 import Detail from '@/pages/user/DetailPage'
 import User from '@/pages/user/UserPage'
+import OrderConfirm from '@/pages/user/OrderConfirm'
 
 import Login from '@/pages/venue/SignIn'
 import SignUp from '@/pages/venue/SignUp'
@@ -35,6 +36,11 @@ export default new Router({
           path: '/Detail/:id',
           name: 'Detail',
           component:Detail
+        },
+        {
+          path: '/OrderConfirm',
+          name: 'OrderConfirm',
+          component:OrderConfirm
         },
         {
           path: '/User/:userId',
