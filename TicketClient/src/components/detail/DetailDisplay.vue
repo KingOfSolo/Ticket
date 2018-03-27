@@ -67,11 +67,19 @@
         this.totalPrice = this.showInfo.showPrices[index].price * this.num
       },
       buy(){
+        let orderInfo = this.showInfo
+        orderInfo.num = this.num
+        orderInfo.total = this.totalPrice
+        orderInfo.price = this.showInfo.showPrices[this.priceActiveNum].price
+        orderInfo.discount = Math.floor(this.totalPrice * (1 - this.$store.getters.discount))
+        console.log(orderInfo)
+//        this.$store.commit('ORDER_INFO',orderInfo)
+        this.$store.dispatch('ORDER_INFO',orderInfo)
         this.$router.push({name: 'OrderConfirm'})
       }
     },
     mounted (){
-//      this.totalPrice = this.priceList[0].price
+      this.totalPrice = this.priceList[0].price
     }
   }
 </script>

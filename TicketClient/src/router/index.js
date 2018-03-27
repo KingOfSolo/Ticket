@@ -6,6 +6,7 @@ import Choose from '@/pages/user/ChoosePage'
 import Detail from '@/pages/user/DetailPage'
 import User from '@/pages/user/UserPage'
 import OrderConfirm from '@/pages/user/OrderConfirm'
+import OrderPay from '@/pages/user/OrderPay'
 
 import Login from '@/pages/venue/SignIn'
 import SignUp from '@/pages/venue/SignUp'
@@ -41,6 +42,11 @@ export default new Router({
           path: '/OrderConfirm',
           name: 'OrderConfirm',
           component:OrderConfirm
+        },
+        {
+          path: '/OrderPay/:number',
+          name: 'OrderPay',
+          component: OrderPay
         },
         {
           path: '/User/:userId',

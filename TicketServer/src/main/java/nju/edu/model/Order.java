@@ -28,7 +28,7 @@ public class Order implements Serializable{
     @Column(name = "buyer")
     private int buyer;
 
-    @Column(name = "show")
+    @Column(name = "`show`")
     private int show;
 
     @Column(name = "buyer_name")
@@ -44,11 +44,14 @@ public class Order implements Serializable{
     private int state;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @Column(name = "date")
+    @Column(name = "`date`")
     private Date date;
 
     @Column(name = "number")
-    private String number;
+    private Long number;
+
+    @Column(name = "discount")
+    private int discount;
 
     public int getId() {
         return id;
@@ -138,12 +141,20 @@ public class Order implements Serializable{
         this.date = date;
     }
 
-    public String getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Long number) {
         this.number = number;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     public Order(){}

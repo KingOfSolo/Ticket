@@ -4,14 +4,14 @@
       <div class="address-container-form">
         <p>地址信息</p>
         <el-form label-width="80px" :label-position="labelPosition">
-          <el-form-item label="取票人：">
+          <el-form-item label="取票人：" required>
+            <el-input size="medium" style="width: 250px" v-model="addressData.name"></el-input>
+          </el-form-item>
+          <el-form-item label="手机：" required v-model="addressData.phone">
             <el-input size="medium" style="width: 250px"></el-input>
           </el-form-item>
-          <el-form-item label="手机：">
-            <el-input size="medium" style="width: 250px"></el-input>
-          </el-form-item>
-          <el-form-item label="地址：">
-            <el-input size="medium" style="width: 250px"></el-input>
+          <el-form-item label="地址：" required>
+            <el-input size="medium" style="width: 250px" v-model="addressData.address"></el-input>
           </el-form-item>
         </el-form>
         <div class="dottedLine"></div>
@@ -19,9 +19,9 @@
         <div>本次取票为邮寄方式，请保持手机通信联系</div>
         <div class="dottedLine"></div>
         <p>优惠信息</p>
-        <div>会员等级<span class="level">Lv.2</span>，折扣为<span class="level">8.5</span>折</div>
+        <div>会员等级<span class="level">Lv.{{user.level}}</span>，折扣为<span class="level">{{discount * 10}}</span>折</div>
       </div>
-      <el-button type="primary" class="payment-button">去支付</el-button>
+      <el-button type="primary" class="payment-button" @click="confirmOrder">小计：{{orderInfo.total - orderInfo.discount}}元 去支付</el-button>
     </div>
     <div class="info-container">
       <div class="show-info">
@@ -31,7 +31,7 @@
       <div class="dottedLine2"></div>
       <div class="labelSize"><span>票面:</span><span class="labelColor">{{orderInfo.price}}</span></div>
       <div class="labelSize"><span>地点:</span><span class="labelColor">{{orderInfo.address}}</span></div>
-      <div class="labelSize"><span>时间:</span><span class="labelColor">{{orderInfo.date}}</span></div>
+      <div class="labelSize"><span>时间:</span><span class="labelColor">{{orderInfo.start_time}}</span></div>
       <div class="labelSize"><span>数量:</span><span class="labelColor">{{orderInfo.num}}张</span></div>
       <div class="dottedLine2"></div>
       <div class="labelSize flexBetween"><span>代收票款：</span><span class="labelColor">{{orderInfo.total}}元</span></div>
@@ -48,25 +48,56 @@
   import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item";
   import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
   import ElButton from "../../../node_modules/element-ui/packages/button/src/button";
+  import {mapGetters} from 'vuex'
   export default{
     components: {
       ElButton,
       ElInput,
       ElFormItem,
       ElForm},
+    computed: {
+      ...mapGetters({
+        orderInfo: 'order',
+        user: 'user',
+        discount: 'discount'
+      }),
+    },
     data () {
       return {
         labelPosition: 'left',
-        orderInfo: {
-          poster: 'https://picsum.photos/200/300',
-          name: '【上海站】开心麻花爆笑舞台剧《莎士比亚别生气》 ',
-          price: 180,
-          num: 1,
-          address: '上戏实验剧院--上海市华山路630号',
-          date: '2018-03-28 19:30',
-          discount: '10',
-          total: 180
+        addressData: {
+          name: '',
+          phone: '',
+          address: ''
         }
+      }
+    },
+    methods: {
+      confirmOrder() {
+        var self = this
+        console.log(this.orderInfo)
+        let order = {
+          price: this.orderInfo.price,
+          num: this.orderInfo.num,
+          total: this.orderInfo.total,
+          buyer: this.user.id,
+          show: this.orderInfo.show_id,
+          buyer_name: this.addressData.name,
+          phone: this.addressData.phone,
+          address: this.addressData.address,
+          discount: this.orderInfo.discount
+        }
+        console.log(order)
+        this.$http({
+          method: 'post',
+          url: '/Order/confirm',
+          data: order
+        }).then(function (res) {
+          console.log(res.data)
+          self.$router.push({name: 'OrderPay', params: {number: res.data.number}})
+        }).catch(function (err) {
+          console.log(err.request)
+        })
       }
     }
   }
