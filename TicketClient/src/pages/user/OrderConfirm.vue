@@ -57,7 +57,7 @@
       ElForm},
     computed: {
       ...mapGetters({
-        orderInfo: 'order',
+//        orderInfo: 'order',
         user: 'user',
         discount: 'discount'
       }),
@@ -69,6 +69,16 @@
           name: '',
           phone: '',
           address: ''
+        },
+        orderInfo: {
+          poster: 'https://picsum.photos/400/701/?random',
+          name: '【上海站】开心麻花爆笑舞台剧《乌龙山伯爵》',
+          start_time: '2018.2.10 19:30',
+          address: '上海梅赛德斯奔驰文化中心',
+          price: 280,
+          num: 2,
+          total: 560,
+          discount: 20
         }
       }
     },
@@ -88,16 +98,17 @@
           discount: this.orderInfo.discount
         }
         console.log(order)
-        this.$http({
-          method: 'post',
-          url: '/Order/confirm',
-          data: order
-        }).then(function (res) {
-          console.log(res.data)
-          self.$router.push({name: 'OrderPay', params: {number: res.data.number}})
-        }).catch(function (err) {
-          console.log(err.request)
-        })
+        self.$router.push({name: 'OrderPay', params: {number: "11589746132132"}})
+//        this.$http({
+//          method: 'post',
+//          url: '/Order/confirm',
+//          data: order
+//        }).then(function (res) {
+//          console.log(res.data)
+//          self.$router.push({name: 'OrderPay', params: {number: res.data.number}})
+//        }).catch(function (err) {
+//          console.log(err.request)
+//        })
       }
     }
   }
