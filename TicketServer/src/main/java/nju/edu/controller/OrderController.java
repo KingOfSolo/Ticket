@@ -3,12 +3,10 @@ package nju.edu.controller;
 import nju.edu.model.Order;
 import nju.edu.repositoty.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by xiaoJun on 2018/3/26.
@@ -26,5 +24,10 @@ public class OrderController {
         order.setDate(date);
         order.setNumber(date.getTime());
         return orderRepository.save(order);
+    }
+
+    @RequestMapping(value = "findByUserId/id/{id}",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public List<Order> findByUserId(@PathVariable("id") int id){
+        return orderRepository.findByBuyer(id);
     }
 }
