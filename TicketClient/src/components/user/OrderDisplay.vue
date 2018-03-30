@@ -7,18 +7,18 @@
     </div>
     <div id="order-info-container">
       <div class="order-info">
-        <img :src="orderInfo.poster"/>
+        <img :src="showInfo.poster"/>
         <div class="order-info-content">
           <div class="order-info-name">{{orderInfo.name}}</div>
           <div><span class="order-info-label">票面：</span><span class="order-info-detail">{{orderInfo.price}}</span></div>
           <div><span class="order-info-label">数量：</span><span class="order-info-detail">{{orderInfo.num}}张</span></div>
-          <div><span class="order-info-label">时间：</span><span class="order-info-detail">{{orderInfo.start_time}}</span></div>
-          <div><span class="order-info-label">场馆：</span><span class="order-info-detail">{{orderInfo.address}}</span></div>
-          <div><span class="order-info-label">座位：</span><span class="order-info-detail">{{orderInfo.seat_name}}</span></div>
-          <div><span class="order-info-label">订单金额：</span><span class="order-info-price">{{orderInfo.total}}元</span></div>
+          <div><span class="order-info-label">时间：</span><span class="order-info-detail">{{showInfo.start_time}}</span></div>
+          <div><span class="order-info-label">场馆：</span><span class="order-info-detail">{{showInfo.address}}</span></div>
+          <div><span class="order-info-label">座位：</span><span class="order-info-detail">{{seatInfo.seat_name}}</span></div>
+          <div><span class="order-info-label">订单金额：</span><span class="order-info-price">{{orderInfo.total - orderInfo.discount}}元</span></div>
         </div>
       </div>
-      <el-button v-show="orderInfo.state == 0" type="primary" style="align-self: center">去支付</el-button>
+      <el-button @click="toPay" v-show="orderInfo.state == 0" type="primary" style="align-self: center">去支付<span>{{this.minutes}}:{{this.seconds}}</span></el-button>
     </div>
   </div>
 </template>
@@ -30,7 +30,58 @@
     props: ['orderInfo'],
     data (){
       return {
+        restTime: 15 * 60 * 1000,
+        rootTime: '',
+        time: "",
+        minutes: "",
+        seconds: "",
+        timer: "",
+        showInfo: {},
+        seatInfo: {}
       }
+    },
+    methods: {
+      countdownTime(){
+        this.rootTime = +new Date(this.orderInfo.date)
+        this.timer = window.setInterval(this.countdown1, 100);
+      },
+      countdown1(){
+        this.time = new Date((this.restTime + this.rootTime) - new Date());
+        this.minutes = (this.time.getMinutes() < 10 ? "0" + this.time.getMinutes() : this.time.getMinutes());
+        this.seconds = (this.time.getSeconds() < 10 ? "0" + this.time.getSeconds() : this.time.getSeconds());
+        if(this.time <= 0){
+          this.minutes = "00";
+          this.seconds = "00";
+          clearInterval(this.timer);
+        }
+      },
+      toPay(){
+        this.$router.push({name: 'OrderPay', params: {number: this.orderInfo.number}})
+      }
+    },
+    mounted(){
+      let self = this
+      this.$http({
+        method: 'post',
+        url: '/Show/id/'+this.orderInfo.show,
+      }).then(function (res) {
+        console.log(res.data)
+        self.showInfo = res.data
+      }).catch(function (err) {
+        console.log(err)
+      })
+
+      this.$http({
+        method: 'post',
+        url: '/Order/seat/'+this.orderInfo.seat,
+      }).then(function (res) {
+        console.log(res.data)
+        self.seatInfo = res.data
+      }).catch(function (err) {
+        console.log(err)
+      })
+
+      this.countdownTime()
     }
   }
 </script>
@@ -94,5 +145,9 @@
     padding: 10px 0;
     border-top: 1px dotted #cccccc;
     border-bottom: 1px dotted #cccccc;
+  }
+
+  .remain-time{
+
   }
 </style>

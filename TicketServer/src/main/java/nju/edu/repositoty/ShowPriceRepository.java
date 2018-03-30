@@ -15,5 +15,5 @@ public interface ShowPriceRepository extends JpaRepository<ShowPrice, Integer>{
 //    @Query(value = "select * from show_price where show_price.show_id = ?1", nativeQuery = true)
 //    List<ShowPrice> findByShowId(int show_id);
 
-
+    ShowPrice findOne(int id);
 }

@@ -70,6 +70,7 @@
         let orderInfo = this.showInfo
         orderInfo.num = this.num
         orderInfo.total = this.totalPrice
+        orderInfo.seat = this.showInfo.showPrices[this.priceActiveNum].seat_id
         orderInfo.price = this.showInfo.showPrices[this.priceActiveNum].price
         orderInfo.discount = Math.floor(this.totalPrice * (1 - this.$store.getters.discount))
         console.log(orderInfo)

@@ -11,6 +11,7 @@ import './theme.css'
 import axiosService from '../axiosService'
 import store from './store/index'
 import 'jquery'
+import 'jquery-countdown'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axiosService

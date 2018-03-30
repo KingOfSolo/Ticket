@@ -1,23 +1,25 @@
 <template>
   <div id="user">
-    <el-tabs :tab-position="tabPosition" type="border-card" value="first">
-      <el-tab-pane name="first">
-        <span slot="label"><i class="el-icon-edit">账号管理</i></span>
-        <account-manage></account-manage>
-      </el-tab-pane>
-      <el-tab-pane name="second">
-        <span slot="label"><i class="el-icon-tickets"></i>我的订单</span>
-        <my-order></my-order>
-      </el-tab-pane>
-      <el-tab-pane name="third">
-        <span slot="label"><i class="el-icon-location-outline"></i>地址管理</span>
-        <receive-address></receive-address>
-      </el-tab-pane>
-      <el-tab-pane name="fourth">
-        <span slot="label"><i class="el-icon-date"></i>统计数据</span>
-        <personal-data></personal-data>
-      </el-tab-pane>
-    </el-tabs>
+    <div class="tab-container">
+      <el-tabs :tab-position="tabPosition" type="border-card" value="first">
+        <el-tab-pane name="first">
+          <span slot="label"><i class="el-icon-edit">账号管理</i></span>
+          <account-manage></account-manage>
+        </el-tab-pane>
+        <el-tab-pane name="second">
+          <span slot="label"><i class="el-icon-tickets"></i>我的订单</span>
+          <my-order></my-order>
+        </el-tab-pane>
+        <el-tab-pane name="third">
+          <span slot="label"><i class="el-icon-location-outline"></i>地址管理</span>
+          <receive-address></receive-address>
+        </el-tab-pane>
+        <el-tab-pane name="fourth">
+          <span slot="label"><i class="el-icon-date"></i>统计数据</span>
+          <personal-data></personal-data>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -43,6 +45,14 @@
 
 <style>
   #user{
-    padding: 40px 15% 0 15%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    vertical-align: top;
+  }
+
+  .tab-container{
+    margin-top: 40px;
+    width: 1000px;
   }
 </style>

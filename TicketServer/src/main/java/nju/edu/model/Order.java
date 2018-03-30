@@ -53,6 +53,9 @@ public class Order implements Serializable{
     @Column(name = "discount")
     private int discount;
 
+    @Column(name = "seat")
+    private int seat;
+
     public int getId() {
         return id;
     }
@@ -155,6 +158,14 @@ public class Order implements Serializable{
 
     public void setDiscount(int discount) {
         this.discount = discount;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
 
     public Order(){}

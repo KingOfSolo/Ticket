@@ -17,7 +17,6 @@ export default {
   },
   actions: {
     [ORDER_INFO]({commit}, info){
-      console.log(info)
       commit(ORDER_INFO,info)
     }
   }

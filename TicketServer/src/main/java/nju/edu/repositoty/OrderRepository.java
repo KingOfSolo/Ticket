@@ -16,4 +16,6 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
     List<Order> findByShow(int show);
 
     List<Order> findByBuyerAndState(int buyer, int state);
+
+    List<Order> findByNumber(Long number);
 }

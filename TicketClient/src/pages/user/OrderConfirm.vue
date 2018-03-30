@@ -48,7 +48,7 @@
   import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item";
   import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
   import ElButton from "../../../node_modules/element-ui/packages/button/src/button";
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapState} from 'vuex'
   export default{
     components: {
       ElButton,
@@ -61,6 +61,15 @@
         user: 'user',
         discount: 'discount'
       }),
+//      ...mapState({
+//        orderInfo: state => state.order
+//      })
+    },
+    created(){
+//      console.log(JSON.parse(window.sessionStorage.getItem('order')))
+    },
+    mounted(){
+        this.orderInfo = JSON.parse(window.sessionStorage.getItem('order'))
     },
     data () {
       return {
@@ -71,14 +80,14 @@
           address: ''
         },
         orderInfo: {
-          poster: 'https://picsum.photos/400/701/?random',
-          name: '【上海站】开心麻花爆笑舞台剧《乌龙山伯爵》',
-          start_time: '2018.2.10 19:30',
-          address: '上海梅赛德斯奔驰文化中心',
-          price: 280,
-          num: 2,
-          total: 560,
-          discount: 20
+//          poster: 'https://picsum.photos/400/701/?random',
+//          name: '【上海站】开心麻花爆笑舞台剧《乌龙山伯爵》',
+//          start_time: '2018.2.10 19:30',
+//          address: '上海梅赛德斯奔驰文化中心',
+//          price: 280,
+//          num: 2,
+//          total: 560,
+//          discount: 20
         }
       }
     },
@@ -92,23 +101,26 @@
           total: this.orderInfo.total,
           buyer: this.user.id,
           show: this.orderInfo.show_id,
+          seat: this.orderInfo.seat,
           buyer_name: this.addressData.name,
           phone: this.addressData.phone,
           address: this.addressData.address,
           discount: this.orderInfo.discount
         }
-        console.log(order)
-        self.$router.push({name: 'OrderPay', params: {number: "11589746132132"}})
-//        this.$http({
-//          method: 'post',
-//          url: '/Order/confirm',
-//          data: order
-//        }).then(function (res) {
-//          console.log(res.data)
-//          self.$router.push({name: 'OrderPay', params: {number: res.data.number}})
-//        }).catch(function (err) {
-//          console.log(err.request)
-//        })
+//        self.$router.push({name: 'OrderPay', params: {number: "11589746132132"}})
+        this.$http({
+          method: 'post',
+          url: '/Order/confirm',
+          data: order
+        }).then(function (res) {
+          console.log(res.data)
+          self.orderInfo.number = res.data.number
+          self.orderInfo.date = res.data.date
+          self.$store.dispatch('ORDER_INFO',self.orderInfo)
+          self.$router.push({name: 'OrderPay', params: {number: res.data.number}})
+        }).catch(function (err) {
+          console.log(err)
+        })
       }
     }
   }

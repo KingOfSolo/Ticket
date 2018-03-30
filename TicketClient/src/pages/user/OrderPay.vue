@@ -7,7 +7,7 @@
             <img src="../../assets/order.svg"/>
             <h2>订单提交成功！去付款咯~~~</h2>
           </div>
-          <span class="redFont">应付总金额：560元</span>
+          <span class="redFont">应付总金额：{{order.total - order.discount}}元</span>
         </div>
         <div class="timer">
           <div>请在15分钟内完成支付</div>
@@ -25,7 +25,13 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   export default{
+    computed:{
+//      ...mapGetters({
+//        order: 'order'
+//      })
+    },
     data(){
       return{
         time: "",
@@ -34,19 +40,22 @@
         minutes: "",
         seconds: "",
         timer: "",
+        order: {}
       }
+    },
+    created(){
+
     },
     methods: {
       countdownTimer: function () {
-        this.rootTime =  +new Date();
+        this.rootTime = +new Date(this.order.date)
         this.timer = window.setInterval(this.countdown, 100);
       },
       countdown: function () {
         this.time = new Date((this.restTime + this.rootTime) - new Date());
         this.minutes = (this.time.getMinutes() < 10 ? "0" + this.time.getMinutes() : this.time.getMinutes());
         this.seconds = (this.time.getSeconds() < 10 ? "0" + this.time.getSeconds() : this.time.getSeconds());
-        if(this.time <= 0)
-        {
+        if(this.time <= 0){
           this.minutes = "00";
           this.seconds = "00";
           clearInterval(this.timer);
@@ -54,7 +63,15 @@
       }
     },
     mounted(){
-      this.countdownTimer()
+      var self = this
+      this.$http({
+        method: 'post',
+        url: '/Order/number/'+this.$route.params.number
+      }).then(function (res) {
+        console.log(res.data)
+        self.order = res.data
+        self.countdownTimer()
+      })
     }
   }
 </script>
