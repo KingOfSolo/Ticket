@@ -1,6 +1,6 @@
 <template>
   <div id="order-display">
-    <div style="color: #EA2000;font-size: small">交易取消</div>
+    <div style="color: #EA2000;font-size: small" v-show="orderInfo.state == 4">交易取消</div>
     <div class="order-info-number">
       <div>订单号：{{orderInfo.number}}</div>
       <div>{{orderInfo.date}}</div>
@@ -9,7 +9,7 @@
       <div class="order-info">
         <img :src="showInfo.poster"/>
         <div class="order-info-content">
-          <div class="order-info-name">{{orderInfo.name}}</div>
+          <div class="order-info-name">{{showInfo.name}}</div>
           <div><span class="order-info-label">票面：</span><span class="order-info-detail">{{orderInfo.price}}</span></div>
           <div><span class="order-info-label">数量：</span><span class="order-info-detail">{{orderInfo.num}}张</span></div>
           <div><span class="order-info-label">时间：</span><span class="order-info-detail">{{showInfo.start_time}}</span></div>
@@ -18,7 +18,7 @@
           <div><span class="order-info-label">订单金额：</span><span class="order-info-price">{{orderInfo.total - orderInfo.discount}}元</span></div>
         </div>
       </div>
-      <el-button @click="toPay" v-show="orderInfo.state == 0" type="primary" style="align-self: center">去支付<span>{{this.minutes}}:{{this.seconds}}</span></el-button>
+      <el-button @click="toPay" v-show="orderInfo.state == 1 && showPayButton" type="primary" style="align-self: center">去支付<span>{{this.minutes}}:{{this.seconds}}</span></el-button>
     </div>
   </div>
 </template>
@@ -37,7 +37,8 @@
         seconds: "",
         timer: "",
         showInfo: {},
-        seatInfo: {}
+        seatInfo: {},
+        showPayButton: true
       }
     },
     methods: {
@@ -52,11 +53,22 @@
         if(this.time <= 0){
           this.minutes = "00";
           this.seconds = "00";
+          this.showPayButton = false
+//          this.overtime()
           clearInterval(this.timer);
         }
       },
       toPay(){
         this.$router.push({name: 'OrderPay', params: {number: this.orderInfo.number}})
+      },
+      overtime(){
+        this.$http({
+          method: 'post',
+          url: '/Order/fail/'+this.orderInfo.number,
+        }).then(function (res) {
+        }).catch(function (err) {
+          console.log(err)
+        })
       }
     },
     mounted(){

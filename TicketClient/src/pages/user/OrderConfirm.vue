@@ -107,6 +107,7 @@
           address: this.addressData.address,
           discount: this.orderInfo.discount
         }
+        console.log(order)
 //        self.$router.push({name: 'OrderPay', params: {number: "11589746132132"}})
         this.$http({
           method: 'post',

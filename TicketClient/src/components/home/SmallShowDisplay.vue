@@ -1,5 +1,5 @@
 <template>
-  <div class="small-show-display">
+  <div class="small-show-display" @click="detail">
     <img :src="smallShowDisplay.poster"/>
     <div class="small-show-display-content">
       <div class="small-show-display-title">{{smallShowDisplay.name}}</div>
@@ -36,6 +36,11 @@
     },
     data () {
       return {
+      }
+    },
+    methods:{
+      detail(){
+        this.$router.push({name: 'Detail', params: {id: this.smallShowDisplay.show_id}})
       }
     }
   }

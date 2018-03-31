@@ -1,5 +1,5 @@
 <template>
-  <div class="big-show-display" v-on:mouseenter="bigShowEnter" v-on:mouseleave="bigShowLeave">
+  <div class="big-show-display" v-on:mouseenter="bigShowEnter" v-on:mouseleave="bigShowLeave" @click="toDetail">
     <img :src="bigShowInfo.poster"/>
     <div class="big-show-display-top-mask mask" :class="{maskOpacity: bigShowIsHover}">
       <div>{{bigShowInfo.name}}</div>
@@ -43,6 +43,9 @@
      },
      bigShowLeave: function () {
        this.bigShowIsHover = false
+     },
+     toDetail(){
+       this.$router.push({name: 'Detail', params: {id: this.bigShowInfo.show_id}})
      }
     }
   }

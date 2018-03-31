@@ -31,7 +31,7 @@
     data () {
       return{
         labelPosition: 'left',
-        tabs: ['全部订单', '等待支付', '等待配票', '配票中', '等待收票', '已结束'],
+        tabs: ['全部订单', '等待支付', '等待配票', '等待收票', '交易取消'],
         tabActiveNum: 0,
         orderInfoList: [],
         userId: '',
@@ -42,6 +42,22 @@
     methods: {
       tabClick(index){
         this.tabActiveNum = index
+        var self = this
+        var url = ''
+        if(index != 0){
+          url = '/Order/state/'+this.userId+'/'+this.tabActiveNum
+        }else{
+          url = '/Order/userId/'+this.userId
+        }
+        this.$http({
+          method: 'post',
+          url: url
+        }).then(function (res) {
+          console.log(res.data)
+          self.orderInfoList = res.data
+        }).catch(function (err) {
+          console.log(err)
+        })
       },
       handleCurrentChange: function (val) {
         this.currentPage = val

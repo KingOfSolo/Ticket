@@ -1,14 +1,14 @@
 <template>
   <div id="header">
-    <el-button type="text" id="logo">掠影</el-button>
-    <div id="login">
-      <div id="search-container" style="width: 100%">
-        <input id="search-input" placeholder="搜索演出、场馆"/>
+    <el-button type="text" id="logo" @click="toHome">掠影</el-button>
+    <span style="display: flex;align-items: center">
+      <input id="search-input" placeholder="搜索演出、场馆"/>
         <div id="search-button">
           <i class="el-icon-search"></i>
           搜索
         </div>
-      </div>
+    </span>
+    <span style="margin-right: 10%">
       <div v-if="isLogin">
         <el-dropdown style="margin-left: 10px" @command="handleCommand">
           <span class="el-dropdown-link">
@@ -23,8 +23,7 @@
       <div v-else>
         <el-button type="text" class="header-button" @click="loginDialogVisible = true">登录</el-button>
       </div>
-
-    </div>
+    </span>
     <el-dialog
       :visible.sync="loginDialogVisible"
       width="430px"
@@ -78,6 +77,9 @@
           message:'登录成功',
           type: 'success'
         })
+      },
+      toHome(){
+        this.$router.push({name: 'Home'})
       }
     }
   }
@@ -131,22 +133,15 @@
     top: 0;
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
+    /*flex-direction: row;*/
+    /*justify-content: flex-start;*/
     align-items: center;
     background-color: white;
     /*padding: 0 100px 0 100px;*/
     height: 70px;
     box-shadow: 0 0 5px #d2d2d2;
     z-index: 100;
-  }
-
-  #login{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-grow: 1;
-    margin-right: 10%;
   }
 
   .header-button{
@@ -164,14 +159,6 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-  }
-
-  #search-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    margin-right: 300px;
   }
 
   #search-input{

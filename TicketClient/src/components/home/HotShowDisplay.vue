@@ -23,7 +23,7 @@
     },
     methods: {
       toShowDetail: function () {
-        this.$router.push({name: 'Detail', params: {id: '0001'}})
+        this.$router.push({name: 'Detail', params: {id: this.hotShowInfo.show_id}})
       }
     }
   }

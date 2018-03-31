@@ -41,6 +41,9 @@ public class User implements Serializable{
     @Column(name = "state")
     private int state;
 
+    @Column(name = "accumulation")
+    private int accumulation;
+
     public int getId() {
         return id;
     }
@@ -111,6 +114,14 @@ public class User implements Serializable{
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public int getAccumulation() {
+        return accumulation;
+    }
+
+    public void setAccumulation(int accumulation) {
+        this.accumulation = accumulation;
     }
 
     public User(){}

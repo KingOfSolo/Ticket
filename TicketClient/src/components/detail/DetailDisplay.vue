@@ -12,6 +12,7 @@
         <div class="detail-display-number">
           <span style="margin-right: 20px">选择数量</span>
           <el-input-number v-model="num" @change="handleChange" :min="1" :max="max" label="描述文字"></el-input-number>
+          <!--<span class="remain-number">剩余{{this.remainNum}}张</span>-->
         </div>
         <div class="detail-display-total">
           <span style="margin-right: 25px">合计价格</span>
@@ -32,14 +33,14 @@
     props: ['showInfo'],
     computed: {
       priceList: function () {
-        var compare = function (property) {
-          return function(obj1,obj2){
-            var value1 = obj1[property];
-            var value2 = obj2[property];
-            return value1 - value2;
-          }
-        }
-        return this.showInfo.showPrices.sort(compare("price"))
+//        var compare = function (property) {
+//          return function(obj1,obj2){
+//            var value1 = obj1[property];
+//            var value2 = obj2[property];
+//            return value1 - value2;
+//          }
+//        }
+        return this.showInfo.showPrices.sort(this.compare("price"))
       }
     },
     data () {
@@ -55,6 +56,7 @@
         max: 10,
         totalPrice: 0,
         priceActiveNum: 0,
+        remainNum: 0
       }
     },
     methods: {
@@ -65,22 +67,31 @@
       priceClick: function (index) {
         this.priceActiveNum = index
         this.totalPrice = this.showInfo.showPrices[index].price * this.num
+        this.remainNum = this.showInfo.showPrices[index].remain_num
       },
       buy(){
         let orderInfo = this.showInfo
         orderInfo.num = this.num
         orderInfo.total = this.totalPrice
-        orderInfo.seat = this.showInfo.showPrices[this.priceActiveNum].seat_id
+        orderInfo.seat = this.showInfo.showPrices[this.priceActiveNum].id
         orderInfo.price = this.showInfo.showPrices[this.priceActiveNum].price
         orderInfo.discount = Math.floor(this.totalPrice * (1 - this.$store.getters.discount))
         console.log(orderInfo)
 //        this.$store.commit('ORDER_INFO',orderInfo)
         this.$store.dispatch('ORDER_INFO',orderInfo)
         this.$router.push({name: 'OrderConfirm'})
+      },
+      compare(property){
+        return function(obj1,obj2){
+          var value1 = obj1[property];
+          var value2 = obj2[property];
+          return value1 - value2;
+        }
       }
     },
     mounted (){
       this.totalPrice = this.priceList[0].price
+      this.remainNum = this.priceList[0].remain_num
     }
   }
 </script>
@@ -168,5 +179,11 @@
 
   .detail-display-button div:hover{
     opacity: 0.8;
+  }
+
+  .remain-number{
+    font-size: 14px;
+    color: #EA2000;
+    margin-left: 20px;
   }
 </style>
