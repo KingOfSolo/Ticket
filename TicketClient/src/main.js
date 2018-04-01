@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 import router from './router'
 import ElementUI from 'element-ui'
 import iView from 'iview'
+import echarts from 'echarts'
 import 'element-ui/lib/theme-chalk/index.css'
 import './theme.css'
 import axiosService from '../axiosService'
@@ -13,8 +14,10 @@ import store from './store/index'
 import 'jquery'
 import 'jquery-countdown'
 
+
 Vue.config.productionTip = false
 Vue.prototype.$http = axiosService
+Vue.prototype.$echarts = echarts
 
 
 Vue.use(ElementUI)

@@ -1,24 +1,15 @@
 <template>
   <div id="user">
     <div class="tab-container">
-      <el-tabs :tab-position="tabPosition" type="border-card" value="first">
-        <el-tab-pane name="first">
-          <span slot="label"><i class="el-icon-edit">账号管理</i></span>
-          <account-manage></account-manage>
-        </el-tab-pane>
-        <el-tab-pane name="second">
-          <span slot="label"><i class="el-icon-tickets"></i>我的订单</span>
-          <my-order></my-order>
-        </el-tab-pane>
-        <el-tab-pane name="third">
-          <span slot="label"><i class="el-icon-location-outline"></i>地址管理</span>
-          <receive-address></receive-address>
-        </el-tab-pane>
-        <el-tab-pane name="fourth">
-          <span slot="label"><i class="el-icon-date"></i>统计数据</span>
-          <personal-data></personal-data>
-        </el-tab-pane>
-      </el-tabs>
+      <div class="user-tab">
+        <div class="user-tab-item" v-for="(item,index) in userTab" :key="index"
+             :class="{userTabActive: index == tabActiveNum}" @click="userTabClick(index)">{{item}}</div>
+      </div>
+      <div class="user-content">
+        <account-manage v-if="tabActiveNum == 0"></account-manage>
+        <my-order v-else-if="tabActiveNum == 1"></my-order>
+        <personal-data v-else-if="tabActiveNum == 2"></personal-data>
+      </div>
     </div>
   </div>
 </template>
@@ -37,7 +28,13 @@
     },
     data () {
       return {
-        tabPosition: 'left'
+        userTab: ['账号管理','我的订单','统计数据'],
+        tabActiveNum: 0,
+      }
+    },
+    methods:{
+      userTabClick(index){
+        this.tabActiveNum = index
       }
     }
   }
@@ -52,7 +49,41 @@
   }
 
   .tab-container{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .user-tab{
     margin-top: 40px;
-    width: 1000px;
+    display: inline-block;
+    margin-right: 30px;
+  }
+
+  .user-tab-item{
+    padding: 20px;
+    box-shadow: 0 0 12px 0 #f0f0f0;
+    /*border-radius: 5px;*/
+    border: 1px solid #eeeeee;
+    cursor: pointer;
+    color: #909399;
+  }
+
+  .user-tab-item:hover{
+    color: #10cf7d;
+  }
+
+  .userTabActive{
+    color: #10cf7d;
+  }
+
+  .user-content{
+    display: inline-block;
+    width: 800px;
+    box-shadow: 0 0 12px 0 #f0f0f0;
+    padding: 20px;
+    margin-top: 40px;
+    border-radius: 5px;
+    text-align: left;
+    margin-bottom: 40px;
   }
 </style>

@@ -8,6 +8,7 @@ import User from '@/pages/user/UserPage'
 import OrderConfirm from '@/pages/user/OrderConfirm'
 import OrderPay from '@/pages/user/OrderPay'
 import OrderSuccess from '@/pages/user/OrderSuccess'
+import Test from '@/pages/user/Test'
 
 import Login from '@/pages/venue/SignIn'
 import SignUp from '@/pages/venue/SignUp'
@@ -58,7 +59,8 @@ export default new Router({
           path: '/User/:userId',
           name: 'User',
           component:User
-        }
+        },
+
       ]
     },
     {
@@ -80,6 +82,11 @@ export default new Router({
       path: '/TicketLogin',
       name: 'TicketLogin',
       component:TicketLogin
+    },
+    {
+      path: '/Test',
+      name: 'Test',
+      component:Test
     }
   ]
 })

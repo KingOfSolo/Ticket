@@ -11,4 +11,12 @@ public interface OrderService {
     void orderPay(Long number);
 
     void payFail(Long number);
+
+    int consumption(int buyer);
+
+    int[] type(int buyer);
+
+    int[] orderType(int buyer);
+
+    void refund(Long number);
 }

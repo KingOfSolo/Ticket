@@ -31,7 +31,7 @@
     data () {
       return{
         labelPosition: 'left',
-        tabs: ['全部订单', '等待支付', '等待配票', '等待收票', '交易取消'],
+        tabs: ['全部订单', '等待支付', '等待配票', '等待收票', '交易取消','退订'],
         tabActiveNum: 0,
         orderInfoList: [],
         userId: '',

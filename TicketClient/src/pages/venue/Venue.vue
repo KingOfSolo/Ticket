@@ -1,20 +1,16 @@
 <template>
   <div id="venue">
-    <el-tabs :tab-position="tabPosition" type="border-card" value="first" style="width: 850px;display: inline-block;margin-bottom: 100px">
-      <el-tab-pane name="first">
-        <span slot="label"><i class="el-icon-edit">场馆信息</i></span>
-        <venue-info v-on:edit="showEdit" v-if="showInfo" :venue-info="venueInfo"></venue-info>
-        <edit-info v-on:info="showInformation" v-else :venue-info="venueInfo"></edit-info>
-      </el-tab-pane>
-      <el-tab-pane name="second">
-        <span slot="label"><i class="el-icon-tickets"></i>发布计划</span>
-        <release-plan :venue-info="venueInfo"></release-plan>
-      </el-tab-pane>
-      <el-tab-pane name="third">
-        <span slot="label"><i class="el-icon-date"></i>统计数据</span>
-        <venue-data></venue-data>
-      </el-tab-pane>
-    </el-tabs>
+    <div class="venue-container">
+      <div class="venue-tab">
+        <div class="venue-tab-item" v-for="(item,index) in venueTab" :key="index"
+             :class="{venueTabActive: index == tabActiveNum}" @click="venueTabClick(index)">{{item}}</div>
+      </div>
+      <div class="venue-content">
+        <venue-info v-if="tabActiveNum == 0" :venue-info="venueInfo"></venue-info>
+        <release-plan  v-else-if="tabActiveNum == 1" :venue-info="venueInfo"></release-plan>
+        <venue-data v-else-if="tabActiveNum == 2"></venue-data>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,6 +30,8 @@
       return{
         tabPosition: 'left',
         showInfo: true,
+        venueTab: ['场馆信息','发布计划','统计数据'],
+        tabActiveNum: 0,
         venueInfo: {
           identification: '2552000',
           name: '上海梅赛德斯奔驰文化中心',
@@ -48,6 +46,9 @@
       },
       showInformation: function () {
         this.showInfo = true
+      },
+      venueTabClick(index){
+        this.tabActiveNum = index
       }
     },
     mounted (){
@@ -64,5 +65,47 @@
 </script>
 
 <style>
+  #venue{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    vertical-align: top;
+  }
 
+  .venue-container{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .venue-tab{
+    display: inline-block;
+    margin-right: 30px;
+  }
+
+  .venue-tab-item{
+    padding: 20px;
+    box-shadow: 0 0 12px 0 #f0f0f0;
+    /*border-radius: 5px;*/
+    border: 1px solid #eeeeee;
+    cursor: pointer;
+    color: #909399;
+  }
+
+  .venue-tab-item:hover{
+    color: #10cf7d;
+  }
+
+  .venueTabActive{
+    color: #10cf7d;
+  }
+
+  .venue-content{
+    display: inline-block;
+    width: 800px;
+    box-shadow: 0 0 12px 0 #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: left;
+    margin-bottom: 40px;
+  }
 </style>

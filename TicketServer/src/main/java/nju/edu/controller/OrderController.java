@@ -79,7 +79,26 @@ public class OrderController {
 
     @RequestMapping(value = "fail/{number}", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public void payFail(@PathVariable("number") Long number){
+    }
 
+    /**
+     * 退订
+     * @param number
+     */
+    @RequestMapping(value = "refund/{number}",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public void refund(@PathVariable("number") Long number){
+        System.out.println(number);
+        orderService.refund(number);
+    }
+
+    /**
+     * 用户消费的总和
+     * @param buyer
+     * @return
+     */
+    @RequestMapping(value = "consumption/{buyer}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int consumption(@PathVariable("buyer") int buyer){
+        return orderService.consumption(buyer);
     }
 
     @RequestMapping(value = "state/{buyer}/{state}",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -87,6 +106,31 @@ public class OrderController {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         return orderRepository.findByBuyerAndState(buyer,state,sort);
     }
+
+    /**
+     * 获取用户订单演出的类型分布
+     * @param buyer
+     * @return
+     */
+    @RequestMapping(value = "type/{buyer}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int[] type(@PathVariable("buyer") int buyer){
+        return orderService.type(buyer);
+    }
+
+    /**
+     * 获取用户订单总数
+     * @return
+     */
+    @RequestMapping(value = "orderNumber/{buyer}",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public int orderNumber(@PathVariable("buyer") int buyer){
+        List<Order> list = orderRepository.findByBuyer(buyer,new Sort(Sort.Direction.DESC, "id"));
+        return list.size();
+    }
+    @RequestMapping(value = "orderType/{buyer}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int[] orderType(@PathVariable("buyer") int buyer){
+        return orderService.orderType(buyer);
+    }
+
 
     /**
      * 获取系统当前时间

@@ -1,6 +1,7 @@
 <template>
-  <div id="order-display">
+  <div class="order-display">
     <div style="color: #EA2000;font-size: small" v-show="orderInfo.state == 4">交易取消</div>
+    <div style="color: #EA2000;font-size: small" v-show="orderInfo.state == 5">退订</div>
     <div class="order-info-number">
       <div>订单号：{{orderInfo.number}}</div>
       <div>{{orderInfo.date}}</div>
@@ -19,6 +20,7 @@
         </div>
       </div>
       <el-button @click="toPay" v-show="orderInfo.state == 1 && showPayButton" type="primary" style="align-self: center">去支付<span>{{this.minutes}}:{{this.seconds}}</span></el-button>
+      <el-button @click="refund" v-show="orderInfo.state == 3 && isRefund" type="primary" style="align-self: center">退订</el-button>
     </div>
   </div>
 </template>
@@ -38,7 +40,8 @@
         timer: "",
         showInfo: {},
         seatInfo: {},
-        showPayButton: true
+        showPayButton: true,
+        isRefund: true
       }
     },
     methods: {
@@ -61,6 +64,40 @@
       toPay(){
         this.$router.push({name: 'OrderPay', params: {number: this.orderInfo.number}})
       },
+      refund(){
+        var self = this
+        this.$http({
+          method: 'post',
+          url: '/Order/refund/'+this.orderInfo.number,
+        }).then(function (res) {
+          self.isRefund = false
+          self.init()
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
+      init(){
+        let self = this
+        this.$http({
+          method: 'post',
+          url: '/Show/id/'+this.orderInfo.show,
+        }).then(function (res) {
+          console.log(res.data)
+          self.showInfo = res.data
+        }).catch(function (err) {
+          console.log(err)
+        })
+
+        this.$http({
+          method: 'post',
+          url: '/Order/seat/'+this.orderInfo.seat,
+        }).then(function (res) {
+          console.log(res.data)
+          self.seatInfo = res.data
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
       overtime(){
         this.$http({
           method: 'post',
@@ -72,34 +109,15 @@
       }
     },
     mounted(){
-      let self = this
-      this.$http({
-        method: 'post',
-        url: '/Show/id/'+this.orderInfo.show,
-      }).then(function (res) {
-        console.log(res.data)
-        self.showInfo = res.data
-      }).catch(function (err) {
-        console.log(err)
-      })
 
-      this.$http({
-        method: 'post',
-        url: '/Order/seat/'+this.orderInfo.seat,
-      }).then(function (res) {
-        console.log(res.data)
-        self.seatInfo = res.data
-      }).catch(function (err) {
-        console.log(err)
-      })
-
+      this.init()
       this.countdownTime()
     }
   }
 </script>
 
 <style>
-  #order-display{
+  .order-display{
     margin-top: 20px;
   }
 
@@ -159,7 +177,4 @@
     border-bottom: 1px dotted #cccccc;
   }
 
-  .remain-time{
-
-  }
 </style>
