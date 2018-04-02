@@ -18,8 +18,8 @@ public class Show implements Serializable{
     @GeneratedValue
     @Column(name = "show_id")
     private int show_id;
-    @Column(name = "venue_id")
-    private int venue_id;
+    @Column(name = "venue")
+    private int venue;
     @Column(name = "name")
     private String name;
     @Column(name = "introduce")
@@ -45,12 +45,12 @@ public class Show implements Serializable{
         this.show_id = show_id;
     }
 
-    public int getVenue_id() {
-        return venue_id;
+    public int getVenue() {
+        return venue;
     }
 
     public void setVenue_id(int venue_id) {
-        this.venue_id = venue_id;
+        this.venue = venue_id;
     }
 
     public String getName() {
@@ -117,8 +117,8 @@ public class Show implements Serializable{
         this.showPrices = showPrices;
     }
 
-    public Show(int venue_id, String name, String introduce, String start_time, String end_time, String address, int type, String poster) {
-        this.venue_id = venue_id;
+    public Show(int venue, String name, String introduce, String start_time, String end_time, String address, int type, String poster) {
+        this.venue = venue;
         this.name = name;
         this.introduce = introduce;
         this.start_time = start_time;

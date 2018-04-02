@@ -130,7 +130,7 @@
         }
       }
     },
-    mounted(){
+    beforeMounted(){
       this.editInfo.name = this.userInfo.name
       this.editInfo.email = this.userInfo.email
     }

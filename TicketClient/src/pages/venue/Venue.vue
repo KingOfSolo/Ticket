@@ -8,7 +8,8 @@
       <div class="venue-content">
         <venue-info v-if="tabActiveNum == 0" :venue-info="venueInfo"></venue-info>
         <release-plan  v-else-if="tabActiveNum == 1" :venue-info="venueInfo"></release-plan>
-        <venue-data v-else-if="tabActiveNum == 2"></venue-data>
+        <plan-manage v-else-if="tabActiveNum == 2" :venue-info="venueInfo"></plan-manage>
+        <venue-data v-else-if="tabActiveNum == 3"></venue-data>
       </div>
     </div>
   </div>
@@ -19,24 +20,26 @@
   import EditInfo from  '../../components/venue/EditInfo.vue'
   import ReleasePlan from '../../components/venue/ReleasePlan.vue'
   import VenueData from '../../components/venue/VenueData.vue'
+  import PlanManage from '../../components/venue/PlanManage.vue'
   export default{
     components: {
       VenueInfo,
       EditInfo,
       ReleasePlan,
-      VenueData
+      VenueData,
+      PlanManage
     },
     data () {
       return{
         tabPosition: 'left',
         showInfo: true,
-        venueTab: ['场馆信息','发布计划','统计数据'],
+        venueTab: ['场馆信息','发布计划','演出管理','统计数据'],
         tabActiveNum: 0,
         venueInfo: {
-          identification: '2552000',
-          name: '上海梅赛德斯奔驰文化中心',
-          address: '上海市浦东世博大道1200号',
-          tagList: ['看台一', '看台二', '看台三', '内场一', '内场二', '内场三', '内场四'],
+//          identification: '2552000',
+//          name: '上海梅赛德斯奔驰文化中心',
+//          address: '上海市浦东世博大道1200号',
+//          tagList: ['看台一', '看台二', '看台三', '内场一', '内场二', '内场三', '内场四'],
         }
       }
     },

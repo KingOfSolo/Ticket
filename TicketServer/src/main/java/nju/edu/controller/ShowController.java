@@ -1,9 +1,12 @@
 package nju.edu.controller;
 
+import nju.edu.model.Order;
 import nju.edu.model.Show;
+import nju.edu.repositoty.OrderRepository;
 import nju.edu.repositoty.ShowRepository;
 import nju.edu.service.ShowService;
 import nju.edu.util.JSONResult;
+import nju.edu.util.OrderState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,9 @@ public class ShowController{
 
     @Autowired
     private ShowRepository showRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     /**
      * 热门演出
@@ -68,5 +74,17 @@ public class ShowController{
     @RequestMapping(value = "/id/{id}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public Show getShowInfo(@PathVariable("id") int id){
         return showRepository.findOne(id);
+    }
+
+    @RequestMapping(value = "/totalPrice/{id}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int totalPrice(@PathVariable("id") int id){
+        int total = 0;
+        List<Order> list = orderRepository.findByShow(id);
+        for(Order order: list){
+            if(order.getState() == OrderState.Success){
+                total += (order.getTotal() - order.getDiscount());
+            }
+        }
+        return total;
     }
 }

@@ -4,6 +4,9 @@
       <el-form-item label="场馆识别码">
         <span class="identification">{{venueInfo.identification}}</span>
       </el-form-item>
+      <el-form-item label="邮箱">
+        <span class="venue-info-label">{{venueInfo.email}}</span>
+      </el-form-item>
       <el-form-item label="场馆名称">
         <span class="venue-info-label">{{venueInfo.name}}</span>
       </el-form-item>
@@ -11,11 +14,21 @@
         <span class="venue-info-label">{{venueInfo.address}}</span>
       </el-form-item>
       <el-form-item label="座位情况">
-        <el-tag
-          :key="index"
-          v-for="(seat,index) in venueInfo.seats">
-          {{seat.seat_name}}
-        </el-tag>
+        <el-table
+          :data="venueInfo.seats"
+          border
+          style="width: 242px">
+          <el-table-column
+            prop="seat_name"
+            label="座位名称"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="number"
+            label="座位数量"
+            width="120">
+          </el-table-column>
+        </el-table>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="editInfo">修改信息</el-button>
@@ -26,32 +39,31 @@
       <el-form-item label="场馆识别码">
         <span class="identification">{{venueInfo.identification}}</span>
       </el-form-item>
+      <el-form-item label="邮箱">
+        <span class="venue-info-label">{{venueInfo.email}}</span>
+      </el-form-item>
       <el-form-item label="场馆名称">
-        <el-input v-model="venueInfo.name"></el-input>
+        <el-input v-model="venueEditInfo.name"></el-input>
       </el-form-item>
       <el-form-item label="详细地址">
-        <el-input v-model="venueInfo.address"></el-input>
+        <el-input v-model="venueEditInfo.address"></el-input>
       </el-form-item>
       <el-form-item label="座位情况">
-        <el-tag
-          :key="index"
-          v-for="(seat,index) in venueInfo.tagList"
-          closable
-          :disable-transitions="false"
-          @close="handleClose(seat)">
-          {{seat.seat_name}}
-        </el-tag>
-        <el-input
-          class="input-new-tag"
-          v-if="inputVisible"
-          v-model="inputValue"
-          ref="saveTagInput"
-          size="small"
-          @keyup.enter.native="handleInputConfirm"
-          @blur="handleInputConfirm"
-        >
-        </el-input>
-        <el-button v-else size="small" class="button-new-tag" @click="showInput">+添加</el-button>
+        <el-table
+          :data="venueEditInfo.seats"
+          border
+          style="width: 241px">
+          <el-table-column
+            prop="seat_name"
+            label="座位名称"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="number"
+            label="座位数量"
+            width="120">
+          </el-table-column>
+        </el-table>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width: 100px" @click="submit">提交申请</el-button>
@@ -62,12 +74,26 @@
 </template>
 
 <script>
+  import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item";
+  import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
+  import ElButton from "../../../node_modules/element-ui/packages/button/src/button";
   export default{
+    components: {
+      ElButton,
+      ElInput,
+      ElFormItem},
     props: ['venueInfo'],
     data () {
       return{
         labelPosition: 'left',
-        showEdit: true
+        showEdit: true,
+        inputVisible: false,
+        inputValue: '',
+        venueEditInfo: {
+          name: '呵呵1',
+          address: '撒旦法三 ',
+          seats: []
+        }
       }
     },
     methods: {
@@ -76,14 +102,20 @@
       },
       cancel(){
         this.showEdit = true
-      }
+      },
+      submit(){
+
+      },
+    },
+    created(){
+      this.venueEditInfo = this.venueInfo
     }
   }
 </script>
 
 <style>
   #venue-info{
-    margin: 50px 100px 50px 40px;
+    margin: 20px 100px 50px 40px;
   }
 
   .el-tag{
@@ -100,5 +132,18 @@
   .venue-info-label{
     font-size: large;
     text-align: left;
+  }
+
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
   }
 </style>
