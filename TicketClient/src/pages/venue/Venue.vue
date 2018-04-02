@@ -9,7 +9,7 @@
         <venue-info v-if="tabActiveNum == 0" :venue-info="venueInfo"></venue-info>
         <release-plan  v-else-if="tabActiveNum == 1" :venue-info="venueInfo"></release-plan>
         <plan-manage v-else-if="tabActiveNum == 2" :venue-info="venueInfo"></plan-manage>
-        <venue-data v-else-if="tabActiveNum == 3"></venue-data>
+        <venue-data v-else-if="tabActiveNum == 3" :venue-info="venueInfo"></venue-data>
       </div>
     </div>
   </div>

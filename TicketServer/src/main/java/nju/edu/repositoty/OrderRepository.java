@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,4 +22,6 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
     List<Order> findByNumber(Long number);
 
     List<Order> findByState(int state, Sort sort);
+
+    List<Order> findByDate(Date date);
 }

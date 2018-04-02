@@ -109,4 +109,59 @@ public class VenueController{
 //        Sort sort = new Sort(Sort.Direction.DESC, "show_id");
         return showRepository.findByVenue(venue);
     }
+
+    /**
+     * 获取场馆的总收入
+     * @param venue
+     * @return
+     */
+    @RequestMapping(value = "/income/{venue}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int income(@PathVariable("venue") int venue){
+        return venueService.income(venue);
+    }
+
+    /**
+     * 获取场馆收入的类型分布
+     * @param venue
+     * @return
+     */
+    @RequestMapping(value = "/type/{venue}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int[] type(@PathVariable("venue") int venue){
+//        Sort sort = new Sort(Sort.Direction.DESC, "show_id");
+        return venueService.type(venue);
+    }
+
+    /**
+     * 获取场馆的总订单数
+     */
+    @RequestMapping(value = "/orderNumber/{venue}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int orderNumber(@PathVariable("venue") int venue){
+        return venueService.orderNumber(venue);
+    }
+
+    /**
+     *获取场馆的订单类型分布
+     */
+    @RequestMapping(value = "/orderType/{venue}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int[] orderType(@PathVariable("venue") int venue){
+        return venueService.orderType(venue);
+    }
+
+    /**
+     * 获取场馆的总计划数
+     */
+    @RequestMapping(value = "/planNumber/{venue}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int planNumber(@PathVariable("venue") int venue){
+        return venueService.planNumber(venue);
+    }
+
+    /**
+     * 获取场馆计划类型分布
+     */
+    @RequestMapping(value = "/planType/{venue}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public int[] planType(@PathVariable("venue") int venue){
+        return venueService.planType(venue);
+    }
+
+
 }
