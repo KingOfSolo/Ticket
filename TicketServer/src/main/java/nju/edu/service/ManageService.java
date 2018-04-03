@@ -7,4 +7,6 @@ public interface ManageService {
     void sendEmail(int venueId);
 
     String active(int venueId);
+
+    void notPass(int venueId);
 }

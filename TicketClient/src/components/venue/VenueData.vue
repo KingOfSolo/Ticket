@@ -37,7 +37,6 @@
           method: 'post',
           url: '/Venue/income/'+this.venueInfo.venue_id,
         }).then(function (res) {
-          console.log(res.data)
           self.total = res.data
         }).catch(function (err) {
           console.log(err)
@@ -47,7 +46,6 @@
           method: 'post',
           url: '/Venue/type/'+this.venueInfo.venue_id,
         }).then(function (res) {
-          console.log(res.data)
           let name = []
           let data = []
           for(let i = 0; i < res.data.length; i++){
@@ -67,7 +65,6 @@
           method: 'post',
           url: '/Venue/orderNumber/'+this.venueInfo.venue_id,
         }).then(function (res) {
-          console.log(res.data)
           self.number = res.data
         }).catch(function (err) {
           console.log(err)

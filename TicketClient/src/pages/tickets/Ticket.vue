@@ -7,6 +7,8 @@
       </div>
       <div class="ticket-content">
         <venue-check v-if="tabActiveNum == 0"></venue-check>
+        <payment v-else-if="tabActiveNum == 1"></payment>
+        <ticket-data v-else-if="tabActiveNum == 2"></ticket-data>
         <!--<release-plan  v-else-if="tabActiveNum == 1" :ticket-info="ticketInfo"></release-plan>-->
         <!--<plan-manage v-else-if="tabActiveNum == 2" :ticket-info="ticketInfo"></plan-manage>-->
         <!--<ticket-data v-else-if="tabActiveNum == 3" :ticket-info="ticketInfo"></ticket-data>-->
@@ -17,9 +19,13 @@
 
 <script>
   import VenueCheck from '../../components/ticket/VenueCheck.vue'
+  import Payment from '../../components/ticket/Payment.vue'
+  import TicketData from '../../components/ticket/TicketData.vue'
   export default{
     components:{
-      VenueCheck
+      VenueCheck,
+      Payment,
+      TicketData
     },
     data () {
       return {

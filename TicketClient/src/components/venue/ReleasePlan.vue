@@ -39,17 +39,18 @@
         </el-select>
       </el-form-item>
       <el-form-item label="演出海报" required>
-        <el-upload
-          action="http://localhost:8075/TicketServer/Venue/uploadPoster"
-          list-type="picture-card"
-          :on-preview="handlePictureCardPreview"
-          :on-remove="handleRemove"
-          :on-success="handleSuccess">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="showInfo.poster" alt="">
-        </el-dialog>
+        <!--<el-upload-->
+          <!--action="http://localhost:8075/TicketServer/Venue/uploadPoster"-->
+          <!--list-type="picture-card"-->
+          <!--:on-preview="handlePictureCardPreview"-->
+          <!--:on-remove="handleRemove"-->
+          <!--:on-success="handleSuccess">-->
+          <!--<i class="el-icon-plus"></i>-->
+        <!--</el-upload>-->
+        <!--<el-dialog :visible.sync="dialogVisible">-->
+          <!--<img width="100%" :src="showInfo.poster" alt="">-->
+        <!--</el-dialog>-->
+        <el-input v-model="showInfo.poster" placeholder="请输入海报url"></el-input>
       </el-form-item>
       <el-form-item label="演出简介">
         <el-input
@@ -69,8 +70,10 @@
 <script>
   import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item";
   import ElButton from "../../../node_modules/element-ui/packages/button/src/button";
+  import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
   export default{
     components: {
+      ElInput,
       ElButton,
       ElFormItem},
     props: ['venueInfo'],
@@ -93,12 +96,13 @@
         },
         typeList: [
           {value:1, label:'演唱会'},
-          {value:2, label:'体育赛事'},
-          {value:3, label:'音乐会'},
-          {value:4, label:'儿童亲子'},
-          {value:5, label:'舞蹈芭蕾'},
-          {value:6, label:'展览休闲'},
-          {value:7, label:'曲艺杂谈'}
+          {value:2, label: '话剧歌剧'},
+          {value:3, label:'体育赛事'},
+          {value:4, label:'音乐会'},
+          {value:5, label:'儿童亲子'},
+          {value:6, label:'舞蹈芭蕾'},
+          {value:7, label:'展览休闲'},
+          {value:8, label:'曲艺杂谈'}
           ],
         dialogVisible: false,
         priceLength: 0

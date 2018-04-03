@@ -5,30 +5,7 @@
       style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
-          <!--<show-info :show-info="props.row"></show-info>-->
-          <!--<el-form label-position="left" inline class="demo-table-expand">-->
-          <!--<el-form-item label="商品名称">-->
-          <!--<span>{{ props.row.name }}</span>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="所属店铺">-->
-          <!--<span>{{ props.row.shop }}</span>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="商品 ID">-->
-          <!--<span>{{ props.row.id }}</span>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="店铺 ID">-->
-          <!--<span>{{ props.row.shopId }}</span>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="商品分类">-->
-          <!--<span>{{ props.row.category }}</span>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="店铺地址">-->
-          <!--<span>{{ props.row.address }}</span>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="商品描述">-->
-          <!--<span>{{ props.row.desc }}</span>-->
-          <!--</el-form-item>-->
-          <!--</el-form>-->
+          <seat-info :seat-info="props.row.seats"></seat-info>
         </template>
       </el-table-column>
       <el-table-column
@@ -59,27 +36,19 @@
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">不通过</el-button>
+            @click="handleDelete(scope.$index, scope.row)">拒绝</el-button>
         </template>
       </el-table-column>
-      <!--<el-table-column-->
-        <!--label="类型"-->
-        <!--width="100">-->
-        <!--<template slot-scope="props">-->
-          <!--<div>{{types[props.row.type]}}</div>-->
-        <!--</template>-->
-      <!--</el-table-column>-->
-      <!--<el-table-column label="总收入（元）">-->
-        <!--<template slot-scope="props">-->
-          <!--<total-price :show-id="props.row.show_id"></total-price>-->
-        <!--</template>-->
-      <!--</el-table-column>-->
     </el-table>
   </div>
 </template>
 
 <script>
+  import SeatInfo from './SeatInfo.vue'
   export default{
+    components: {
+      SeatInfo
+    },
     data () {
       return {
         venueList: []
@@ -88,22 +57,48 @@
     methods:{
       handleEdit(index, row) {
         console.log(index, row);
+        var self = this
+        self.venueList.splice(index,1)
+        this.$http({
+          method: 'post',
+          url: '/Manage/email/'+this.venueList[index].venue_id,
+        }).then(function (res) {
+          console.log(res.data)
+
+          self.init()
+        }).catch(function (err) {
+          console.log(err)
+        })
       },
       handleDelete(index, row) {
         console.log(index, row);
+        var self = this
+        self.venueList.splice(index,1)
+        this.$http({
+          method: 'post',
+          url: '/Manage/notPass/'+this.venueList[index].venue_id,
+        }).then(function (res) {
+          console.log(res.data)
+          self.init()
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
+      init(){
+        var self = this
+        this.$http({
+          method: 'post',
+          url: '/Manage/checkList/',
+        }).then(function (res) {
+          console.log(res.data)
+          self.venueList = res.data
+        }).catch(function (err) {
+          console.log(err)
+        })
       }
     },
     created(){
-      var self = this
-      this.$http({
-        method: 'post',
-        url: '/Manage/checkList/',
-      }).then(function (res) {
-        console.log(res.data)
-        self.venueList = res.data
-      }).catch(function (err) {
-        console.log(err)
-      })
+      this.init()
     }
   }
 </script>

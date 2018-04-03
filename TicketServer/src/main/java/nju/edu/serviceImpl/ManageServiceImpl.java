@@ -24,10 +24,13 @@ public class ManageServiceImpl implements ManageService{
 
     @Override
     public void sendEmail(int venueId) {
-        String content = "<h1>来自票务网站的激活邮件，激活请点击以下链接：</h1> <h3> " +
-                " <a href='http://localhost:8075/TicketServer/Manage/active?venueId="+venueId+"'>" +
-                " http://localhost:8075/TicketServer/Manage/active?venueId=" +venueId+" </a></h3>";
+//        String content = "<h1>来自票务网站的激活邮件，激活请点击以下链接：</h1> <h3> " +
+//                " <a href='http://localhost:8075/TicketServer/Manage/active?venueId="+venueId+"'>" +
+//                " http://localhost:8075/TicketServer/Manage/active?venueId=" +venueId+" </a></h3>";
         Venue venue = venueRepository.findOne(venueId);
+        venue.setState(1);
+        String content = "<h1>您申请的场馆已审核通过，识别码为："+venue.getIdentification()+"</h1>";
+
         mailService.SendHtmlMail(venue.getEmail(), "场馆激活邮件",content);
     }
 
@@ -37,5 +40,13 @@ public class ManageServiceImpl implements ManageService{
         venue.setState(1);
         venueRepository.save(venue);
         return "激活成功";
+    }
+
+    @Override
+    public void notPass(int venueId) {
+        Venue venue = venueRepository.findOne(venueId);
+        venue.setState(2);
+        String content = "<h1>您申请的场馆审核未通过，请修改信息后重新申请</h1>";
+        mailService.SendHtmlMail(venue.getEmail(), "场馆信息未通过",content);
     }
 }
