@@ -1,14 +1,13 @@
 package nju.edu.controller;
 
+import nju.edu.model.Manager;
 import nju.edu.model.Venue;
+import nju.edu.repositoty.ManageRepository;
 import nju.edu.repositoty.VenueRepository;
 import nju.edu.service.MailService;
 import nju.edu.service.ManageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,6 +24,18 @@ public class ManageController {
 
     @Autowired
     private ManageService manageService;
+
+    @Autowired
+    private ManageRepository manageRepository;
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Manager login(@RequestBody Manager manager){
+        List<Manager> list = manageRepository.findByAccountAndPassword(manager.getAccount(),manager.getPassword());
+        if (list.size() == 0){
+            return null;
+        }
+        return list.get(0);
+    }
 
     /**
      * 获取审核场馆信息列表

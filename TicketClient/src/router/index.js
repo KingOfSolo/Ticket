@@ -15,6 +15,7 @@ import SignUp from '@/pages/venue/SignUp'
 import Venue from '@/pages/venue/Venue'
 
 import TicketLogin from '@/pages/tickets/Login'
+import Ticket from '@/pages/tickets/Ticket'
 
 Vue.use(Router)
 
@@ -82,6 +83,11 @@ export default new Router({
       path: '/TicketLogin',
       name: 'TicketLogin',
       component:TicketLogin
+    },
+    {
+      path: '/Ticket',
+      name: 'Ticket',
+      component:Ticket
     },
     {
       path: '/Test',

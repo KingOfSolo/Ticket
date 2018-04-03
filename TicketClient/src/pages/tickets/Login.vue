@@ -6,8 +6,8 @@
         <div class="content">
           <h2 style="text-align: center">Tickets经理登录</h2>
           <div style="text-align: center;margin-top: 20px">
-            <input class="ticket-login-input" placeholder="账号"/>
-            <input class="ticket-login-input" placeholder="密码"/>
+            <input class="ticket-login-input" placeholder="账号" v-model="loginInfo.account"/>
+            <input class="ticket-login-input" placeholder="密码" type="password" v-model="loginInfo.password"/>
             <button class="ticket-login-button" @click="ticketLogin">登录</button>
           </div>
         </div>
@@ -23,6 +23,10 @@
         backgroundStyle:{
           backgroundImage: "url(https://picsum.photos/400/701)",
           backgroundPosition: '0% 0%'
+        },
+        loginInfo: {
+          account:'',
+          password:''
         }
       }
     },
@@ -33,7 +37,24 @@
         this.backgroundStyle.backgroundPosition = amountMovedX + 'px '+amountMovedY+'px';
       },
       ticketLogin: function () {
-
+        var self = this
+        this.$http({
+          method: 'post',
+          url: '/Manage/login',
+          data: this.loginInfo
+        }).then(function (res) {
+          console.log(res)
+          if (res.data != ''){
+            self.$router.push({name: 'Ticket'})
+          }else{
+            self.$message({
+              message:'用户名或密码错误',
+              type: 'error'
+            })
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
       }
     }
   }
