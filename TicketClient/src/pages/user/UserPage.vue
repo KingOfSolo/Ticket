@@ -6,7 +6,7 @@
              :class="{userTabActive: index == tabActiveNum}" @click="userTabClick(index)">{{item}}</div>
       </div>
       <div class="user-content">
-        <account-manage v-if="tabActiveNum == 0"></account-manage>
+        <account-manage v-if="tabActiveNum == 0" :user-info="userInfo"></account-manage>
         <my-order v-else-if="tabActiveNum == 1"></my-order>
         <personal-data v-else-if="tabActiveNum == 2"></personal-data>
       </div>
@@ -30,12 +30,25 @@
       return {
         userTab: ['账号管理','我的订单','统计数据'],
         tabActiveNum: 0,
+        userInfo: {}
       }
     },
     methods:{
       userTabClick(index){
         this.tabActiveNum = index
       }
+    },
+    created(){
+      var self = this
+      this.$http({
+        method: 'get',
+        url: '/User/findById/id/'+this.$route.params.userId
+      }).then(function (res) {
+        console.log(res)
+        self.userInfo = res.data
+      }).catch(function (err) {
+        console.log(err)
+      })
     }
   }
 </script>

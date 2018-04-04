@@ -37,9 +37,29 @@ public class ShowController{
      * @return
      */
     @RequestMapping(value = "/hot",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
-    public String hot(){
-        List<Show> hots = showRepository.findAll();
-        return JSONResult.fillResultString(0,"", hots);
+    public List<Show> hot(){
+        List<Show> shows = showRepository.findAll();
+        List<Show> hots = new ArrayList<>();
+        for(int i = shows.size() - 1; i > shows.size() - 11; i--){
+//            int index = (int)(Math.random() * shows.size());
+            hots.add(shows.get(i));
+        }
+        return hots;
+    }
+
+    /**
+     * 轮播图演出
+     * @return
+     */
+    @RequestMapping(value = "/carousel",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    public List<Show> carousel(){
+        List<Show> shows = showRepository.findAll();
+        List<Show> hots = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            int index = (int)(Math.random() * shows.size());
+            hots.add(shows.get(index));
+        }
+        return hots;
     }
 
     /**

@@ -40,6 +40,9 @@ public class ManageController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ModifyRepository modifyRepository;
+
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Manager login(@RequestBody Manager manager){
         List<Manager> list = manageRepository.findByAccountAndPassword(manager.getAccount(),manager.getPassword());
@@ -76,6 +79,25 @@ public class ManageController {
         String venueId = request.getParameter("venueId");
         System.out.println(venueId);
         return manageService.active(Integer.parseInt(venueId));
+    }
+
+    /**
+     * 获取修改信息的场馆列表
+     * @return
+     */
+    @RequestMapping(value = "/modifyList",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public List<Modify> modifyList(){
+        return modifyRepository.findByState(0);
+    }
+
+    @RequestMapping(value = "modifySuccess/{venueId}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public void modifySuccess(@PathVariable("venueId") int venueId){
+        manageService.modifySuccess(venueId);
+    }
+
+    @RequestMapping(value = "modifyFail/{venueId}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public void modifyFail(@PathVariable("venueId") int venueId){
+        manageService.modifyFail(venueId);
     }
 
     @RequestMapping(value = "/payList",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")

@@ -2,7 +2,7 @@
   <div id="hot-show">
     <div class="hot-show-head">
       <span class="hot-show-head-title">近期热门</span>
-      <span class="hot-show-head-more">查看更多></span>
+      <span class="hot-show-head-more" @click="toChoosePage">查看更多></span>
     </div>
     <div class="hot-show-container" style="text-align: left">
         <hot-show-display v-for="(item,index) in hotShowInfoList" :key="index" :hot-show-info="item"></hot-show-display>
@@ -18,7 +18,7 @@
     },
     data () {
       return {
-          hotShowInfoList: [
+        hotShowInfoList: [
             {
               posterUrl: 'https://picsum.photos/200/300/?random',
               title: '【上海站】开心麻花爆笑舞台剧《乌龙山伯爵》爆笑舞台剧',
@@ -71,6 +71,21 @@
             }
           ]
       }
+    },
+    methods:{
+      toChoosePage(){
+        this.$router.push({name: 'Choose',params: {type: 0}})
+      }
+    },
+    mounted(){
+      var self = this
+      this.$http({
+        method: 'get',
+        url: '/Show/hot'
+      }).then(function (res) {
+        console.log(res)
+        self.hotShowInfoList = res.data
+      })
     }
   }
 </script>

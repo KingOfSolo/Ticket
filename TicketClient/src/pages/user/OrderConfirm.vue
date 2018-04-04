@@ -19,7 +19,7 @@
         <div>本次取票为邮寄方式，请保持手机通信联系</div>
         <div class="dottedLine"></div>
         <p>优惠信息</p>
-        <div>会员等级<span class="level">Lv.{{user.level}}</span>，折扣为<span class="level">{{discount * 10}}</span>折</div>
+        <div>会员等级<span class="level">Lv.{{level}}</span>，折扣为<span class="level">{{discount * 10}}</span>折</div>
       </div>
       <el-button type="primary" class="payment-button" @click="confirmOrder">小计：{{orderInfo.total - orderInfo.discount}}元 去支付</el-button>
     </div>
@@ -59,25 +59,30 @@
       ...mapGetters({
 //        orderInfo: 'order',
         user: 'user',
-        discount: 'discount'
+//        discount: 'discount'
       }),
 //      ...mapState({
 //        orderInfo: state => state.order
 //      })
     },
     created(){
+
 //      console.log(JSON.parse(window.sessionStorage.getItem('order')))
     },
     mounted(){
-        this.orderInfo = JSON.parse(window.sessionStorage.getItem('order'))
+      this.orderInfo = JSON.parse(window.sessionStorage.getItem('order'))
+      console.log(this.orderInfo)
     },
     data () {
       return {
         labelPosition: 'left',
+        discount:0,
+        level: 0,
         addressData: {
           name: '',
           phone: '',
-          address: ''
+          address: '',
+          discount: 0
         },
         orderInfo: {
 //          poster: 'https://picsum.photos/400/701/?random',
@@ -95,11 +100,12 @@
       confirmOrder() {
         var self = this
         console.log(this.orderInfo)
+        var userId = JSON.parse(window.localStorage.getItem('userId'))
         let order = {
           price: this.orderInfo.price,
           num: this.orderInfo.num,
           total: this.orderInfo.total,
-          buyer: this.user.id,
+          buyer: userId,
           show: this.orderInfo.show_id,
           seat: this.orderInfo.seat,
           buyer_name: this.addressData.name,
@@ -123,6 +129,27 @@
           console.log(err)
         })
       }
+    },
+    created(){
+      var self = this
+      var userId = JSON.parse(window.localStorage.getItem('userId'))
+      this.$http({
+        method: 'post',
+        url: '/User/discount/'+userId
+      }).then(function (res) {
+        console.log(res)
+        self.discount = res.data
+      })
+
+      this.$http({
+        method: 'get',
+        url: '/User/findById/id/'+userId
+      }).then(function (res) {
+        console.log(res)
+        self.level = res.data.level
+      }).catch(function (err) {
+        console.log(err)
+      })
     }
   }
 </script>

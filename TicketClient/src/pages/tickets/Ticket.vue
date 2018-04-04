@@ -7,11 +7,9 @@
       </div>
       <div class="ticket-content">
         <venue-check v-if="tabActiveNum == 0"></venue-check>
-        <payment v-else-if="tabActiveNum == 1"></payment>
-        <ticket-data v-else-if="tabActiveNum == 2"></ticket-data>
-        <!--<release-plan  v-else-if="tabActiveNum == 1" :ticket-info="ticketInfo"></release-plan>-->
-        <!--<plan-manage v-else-if="tabActiveNum == 2" :ticket-info="ticketInfo"></plan-manage>-->
-        <!--<ticket-data v-else-if="tabActiveNum == 3" :ticket-info="ticketInfo"></ticket-data>-->
+        <venue-modify v-else-if="tabActiveNum == 1"></venue-modify>
+        <payment v-else-if="tabActiveNum == 2"></payment>
+        <ticket-data v-else-if="tabActiveNum == 3"></ticket-data>
       </div>
     </div>
   </div>
@@ -21,15 +19,17 @@
   import VenueCheck from '../../components/ticket/VenueCheck.vue'
   import Payment from '../../components/ticket/Payment.vue'
   import TicketData from '../../components/ticket/TicketData.vue'
+  import VenueModify from '../../components/ticket/VenueModify.vue'
   export default{
     components:{
       VenueCheck,
       Payment,
-      TicketData
+      TicketData,
+      VenueModify
     },
     data () {
       return {
-        ticketTab: ['申请审核','支付结算','统计数据'],
+        ticketTab: ['申请审核','修改审核','支付结算','统计数据'],
         tabActiveNum: 0,
       }
     },

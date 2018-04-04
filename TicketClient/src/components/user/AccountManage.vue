@@ -5,7 +5,7 @@
         <div class="level">Lv.{{userInfo.level}}</div>
       </el-form-item>
       <el-form-item label="会员积分">
-        <div>1000</div>
+        <div>{{userInfo.accumulation}}</div>
       </el-form-item>
       <el-form-item label="账户余额">
         <div>{{userInfo.balance}}元</div>
@@ -21,6 +21,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="isShow = false">修改</el-button>
+        <el-button type="danger" @click="frozenDialogVisible = true">冻结会员</el-button>
       </el-form-item>
     </el-form>
     <el-form v-else label-width="90px" :labelPosition="labelPosition">
@@ -28,7 +29,7 @@
         <div class="level">Lv.{{userInfo.level}}</div>
       </el-form-item>
       <el-form-item label="会员积分">
-        <div>1100</div>
+        <div>{{userInfo.accumulation}}</div>
       </el-form-item>
       <el-form-item label="账户余额">
         <div>{{userInfo.balance}}元</div>
@@ -50,17 +51,16 @@
         <el-button @click="isShow = true">取消</el-button>
       </el-form-item>
     </el-form>
-
-    <!--<div id="account-form">-->
-      <!--<div class="account-form-item">-->
-        <!--<div class="account-form-label">会员等级</div>-->
-        <!--<div style="text-align: left">Lv.7</div>-->
-      <!--</div>-->
-      <!--<div class="account-form-item">-->
-        <!--<div class="account-form-label">昵称</div>-->
-        <!--<el-input></el-input>-->
-      <!--</div>-->
-    <!--</div>-->
+    <el-dialog
+      title="提示"
+      :visible.sync="frozenDialogVisible"
+      width="30%">
+      <span style="font-weight: bolder;font-size: 18px">确定要冻结会员吗？冻结之后不可恢复！</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="frozenCancel">取 消</el-button>
+    <el-button type="primary" @click="frozenConfirm">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -72,10 +72,11 @@
   import ElButton from "../../../node_modules/element-ui/packages/button/src/button";
   import {mapGetters} from 'vuex'
   export default{
+    props: ['userInfo'],
     computed :{
-      ...mapGetters({
-        userInfo: 'user'
-      })
+//      ...mapGetters({
+//        userInfo: 'user'
+//      })
     },
     components: {
       ElButton,
@@ -88,6 +89,7 @@
         labelPosition: 'left',
         percentage: 50,
         isShow: true,
+        frozenDialogVisible: false,
         form: {
           resource: ''
         },
@@ -128,6 +130,22 @@
             alert(err)
           })
         }
+      },
+      frozenCancel(){
+        this.frozenDialogVisible = false
+      },
+      frozenConfirm(){
+        this.frozenDialogVisible = false
+        this.$store.dispatch('USER_SIGNOUT')
+        this.$router.push({name: 'Home'})
+        window.localStorage.removeItem('userId')
+        this.$http({
+          method: 'post',
+          url: '/User/frozen/'+this.userInfo.id,
+        }).then(function (res) {
+        }).catch(function (err) {
+          console(err)
+        })
       }
     },
     beforeMounted(){

@@ -1,13 +1,8 @@
 <template>
-  <div id="venue-check">
+  <div id="venue-modify">
     <el-table
-      :data="venueList"
+      :data="modifyList"
       style="width: 100%">
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <seat-info :seat-info="props.row.seats"></seat-info>
-        </template>
-      </el-table-column>
       <el-table-column
         label="ID"
         prop="venue_id"
@@ -15,28 +10,27 @@
       </el-table-column>
       <el-table-column
         label="名称"
-        prop="name"
-        width="150">
+        width="280">
+        <template slot-scope="scope">
+          <name-container :venue-id="scope.row.venue_id"></name-container>
+        </template>
       </el-table-column>
       <el-table-column
         label="地址"
-        prop="address"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        label="识别码"
-        prop="identification"
-        width="150">
+        width="280">
+        <template slot-scope="scope">
+          <address-container :venue-id="scope.row.venue_id"></address-container>
+        </template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">通过</el-button>
+            @click="modifySuccess(scope.$index, scope.row)">通过</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">拒绝</el-button>
+            @click="modifyFail(scope.$index, scope.row)">拒绝</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -44,61 +38,62 @@
 </template>
 
 <script>
-  import SeatInfo from './SeatInfo.vue'
+  import NameContainer from './NameContainer.vue'
+  import AddressContainer from './AddressContainer.vue'
   export default{
     components: {
-      SeatInfo
+      NameContainer,
+      AddressContainer
     },
     data () {
       return {
-        venueList: []
+        modifyList: []
       }
     },
     methods:{
-      handleEdit(index, row) {
+      modifySuccess(index, row) {
         console.log(index, row);
         var self = this
-        self.venueList.splice(index,1)
+        self.modifyList.splice(index,1)
         this.$http({
           method: 'post',
-          url: '/Manage/email/'+row.venue_id,
+          url: '/Manage/modifySuccess/'+row.venue_id,
         }).then(function (res) {
           console.log(res.data)
-
-          self.init()
+          self.modifyInit()
         }).catch(function (err) {
           console.log(err)
         })
       },
-      handleDelete(index, row) {
+      modifyFail(index, row) {
         console.log(index, row);
         var self = this
-        self.venueList.splice(index,1)
+        self.modifyList.splice(index,1)
         this.$http({
           method: 'post',
-          url: '/Manage/notPass/'+row.venue_id,
+          url: '/Manage/modifyFail/'+row.venue_id,
         }).then(function (res) {
           console.log(res.data)
-          self.init()
+          self.modifyInit()
         }).catch(function (err) {
           console.log(err)
         })
       },
-      init(){
+      modifyInit(){
         var self = this
         this.$http({
           method: 'post',
-          url: '/Manage/checkList',
+          url: '/Manage/modifyList',
         }).then(function (res) {
           console.log(res.data)
-          self.venueList = res.data
+          self.modifyList = res.data
         }).catch(function (err) {
           console.log(err)
         })
       }
     },
     created(){
-      this.init()
+      this.modifyInit()
     }
   }
 </script>

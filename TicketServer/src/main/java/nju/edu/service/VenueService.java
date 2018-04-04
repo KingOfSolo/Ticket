@@ -9,6 +9,8 @@ import java.util.Map;
  * Created by xiaoJun on 2018/3/16.
  */
 public interface VenueService {
+    Venue register(Venue venue);
+
     String login(String identification, String password);
 
     int income(int venue);

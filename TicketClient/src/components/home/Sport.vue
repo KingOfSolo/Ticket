@@ -2,7 +2,7 @@
   <div class="sport">
     <div class="sport-head">
       <div class="sport-head-title">体育赛事</div>
-      <div class="sport-head-more">查看更多></div>
+      <div class="sport-head-more" @click="toChoosePage">查看更多></div>
     </div>
     <div class="sport-container">
       <big-show-display :big-show-info="sportBigShow"></big-show-display>
@@ -26,6 +26,11 @@
       return {
         sportBigShow: {},
         sportSmallShow: []
+      }
+    },
+    methods:{
+      toChoosePage: function () {
+        this.$router.push({name: 'Choose',params: {type: 3}})
       }
     },
     mounted (){

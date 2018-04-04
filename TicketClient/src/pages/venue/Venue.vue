@@ -17,14 +17,12 @@
 
 <script>
   import VenueInfo from '../../components/venue/VenueInfo.vue'
-  import EditInfo from  '../../components/venue/EditInfo.vue'
   import ReleasePlan from '../../components/venue/ReleasePlan.vue'
   import VenueData from '../../components/venue/VenueData.vue'
   import PlanManage from '../../components/venue/PlanManage.vue'
   export default{
     components: {
       VenueInfo,
-      EditInfo,
       ReleasePlan,
       VenueData,
       PlanManage
@@ -52,17 +50,20 @@
       },
       venueTabClick(index){
         this.tabActiveNum = index
+      },
+      venueInit(){
+        var self = this
+        this.$http({
+          method: 'post',
+          url: '/Venue/id/'+this.$route.params.venueId
+        }).then(function (res) {
+          console.log(res)
+          self.venueInfo = res.data
+        })
       }
     },
     mounted (){
-      var self = this
-      this.$http({
-        method: 'post',
-        url: '/Venue/id/'+this.$route.params.venueId
-      }).then(function (res) {
-        console.log(res)
-        self.venueInfo = res.data
-      })
+      this.venueInit()
     }
   }
 </script>

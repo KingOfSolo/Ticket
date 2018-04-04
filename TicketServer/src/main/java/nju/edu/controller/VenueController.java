@@ -1,9 +1,7 @@
 package nju.edu.controller;
 
-import nju.edu.model.Seat;
-import nju.edu.model.Show;
-import nju.edu.model.ShowPrice;
-import nju.edu.model.Venue;
+import nju.edu.model.*;
+import nju.edu.repositoty.ModifyRepository;
 import nju.edu.repositoty.ShowRepository;
 import nju.edu.repositoty.VenueRepository;
 import nju.edu.service.VenueService;
@@ -39,19 +37,15 @@ public class VenueController{
     @Autowired
     private VenueService venueService;
 
+    @Autowired
+    private ModifyRepository modifyRepository;
+
     @Value("${prop.upload-folder}")
     private String UPLOAD_FOLDER;
 
     @RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public Venue register(@RequestBody Venue venue){
-        System.out.print("here   ----------------");
-        Venue venue1 = new Venue("3855202", venue.getEmail(), venue.getPassword(),
-                venue.getName(), venue.getAddress(), 0);
-        for (Seat seat: venue.getSeats()){
-            venue1.addSeat(new Seat(seat.getSeat_name(), seat.getNumber()));
-
-        }
-        return venueRepository.save(venue1);
+        return venueService.register(venue);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -60,6 +54,17 @@ public class VenueController{
         String password = venue.getPassword();
         System.out.println(identification + "   " + password);
         return venueService.login(identification, password);
+    }
+
+    @RequestMapping(value = "/modify",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public Modify modify(@RequestBody Modify modify){
+        modify.setState(0);
+        return modifyRepository.save(modify);
+    }
+
+    @RequestMapping(value = "/modifyInfo/{id}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public Modify modifyInfo(@PathVariable("id") int id){
+        return modifyRepository.findOne(id);
     }
 
     /**

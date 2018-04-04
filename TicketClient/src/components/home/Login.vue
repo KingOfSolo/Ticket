@@ -86,6 +86,7 @@
           }else{
             self.$store.dispatch('USER_SIGNIN',res.data)
             self.$emit('loginSuccess')
+            window.localStorage.setItem('userId', JSON.stringify(res.data.id))
           }
 
         }).catch(function (err) {

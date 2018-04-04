@@ -1,6 +1,8 @@
 package nju.edu.serviceImpl;
 
+import nju.edu.model.Modify;
 import nju.edu.model.Venue;
+import nju.edu.repositoty.ModifyRepository;
 import nju.edu.repositoty.VenueRepository;
 import nju.edu.service.MailService;
 import nju.edu.service.ManageService;
@@ -21,6 +23,9 @@ public class ManageServiceImpl implements ManageService{
 
     @Autowired
     private VenueRepository venueRepository;
+
+    @Autowired
+    private ModifyRepository modifyRepository;
 
     @Override
     public void sendEmail(int venueId) {
@@ -48,5 +53,28 @@ public class ManageServiceImpl implements ManageService{
         venue.setState(2);
         String content = "<h1>您申请的场馆审核未通过，请修改信息后重新申请</h1>";
         mailService.SendHtmlMail(venue.getEmail(), "场馆信息未通过",content);
+    }
+
+    @Override
+    public void modifySuccess(int venueId) {
+        Venue venue = venueRepository.findOne(venueId);
+        Modify modify = modifyRepository.findOne(venueId);
+        venue.setName(modify.getName());
+        venue.setAddress(modify.getAddress());
+        modify.setState(1);
+        venueRepository.save(venue);
+        modifyRepository.save(modify);
+        String content = "<h1>您修改的场馆信息已经审核通过!</h1>";
+        mailService.SendHtmlMail(venue.getEmail(), "场馆信息修改成功",content);
+    }
+
+    @Override
+    public void modifyFail(int venueId) {
+        Venue venue = venueRepository.findOne(venueId);
+        Modify modify = modifyRepository.findOne(venueId);
+        modify.setState(2);
+        modifyRepository.save(modify);
+        String content = "<h1>您修改的场馆信息审核未通过，请重新修改信息后申请</h1>";
+        mailService.SendHtmlMail(venue.getEmail(), "场馆信息审核未通过",content);
     }
 }

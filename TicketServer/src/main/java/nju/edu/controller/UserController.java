@@ -50,12 +50,29 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    @RequestMapping(value="/frozen/{id}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public User frozen(@PathVariable("id") int id){
+        User user = userRepository.findOne(id);
+        user.setState(2);
+        return userRepository.save(user);
+    }
+
+    /**
+     * 获取用户折扣
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/discount/{id}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public double discount(@PathVariable("id") int id){
+        return userService.discount(id);
+    }
 
     @RequestMapping(value = "/hello", produces="application/json;charset=UTF-8")
     public String hello() {
         ArrayList<String> users =  new ArrayList<String>(){{ add("hello"); }};
         return JSONResult.fillResultString(0, "", users);
     }
+
 
     @RequestMapping(value = "/world", produces="application/json;charset=UTF-8")
     public String world() {

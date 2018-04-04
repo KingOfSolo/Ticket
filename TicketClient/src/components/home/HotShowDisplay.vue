@@ -1,9 +1,9 @@
 <template>
   <div class="hot-show-display" @click="toShowDetail">
-    <img :src="hotShowInfo.posterUrl"/>
-    <div class="hot-show-display-title">{{ hotShowInfo.title }}</div>
+    <img :src="hotShowInfo.poster"/>
+    <div class="hot-show-display-title">{{ hotShowInfo.name }}</div>
     <div class="hot-show-display-price">
-      <span style="font-size: large;font-weight: bolder;margin-right: 5px">{{ hotShowInfo.price }}</span>元起
+      <span style="font-size: large;font-weight: bolder;margin-right: 5px">{{ price }}</span>元起
     </div>
   </div>
 </template>
@@ -12,6 +12,25 @@
   export default {
 //    props: ['posterUrl', 'title', 'price'],
     props: ['hotShowInfo'],
+    computed:{
+      price : function () {
+        var prices = []
+        for (var i = 0; i < this.hotShowInfo.showPrices.length; i++){
+          prices[i] = this.hotShowInfo.showPrices[i].price
+        }
+        var compare = function (x, y) {
+          if (x < y) {
+            return -1;
+          } else if (x > y) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+        prices.sort(compare)
+        return prices[0]
+      }
+    },
     data () {
       return {
 //        hotShowInfo: {

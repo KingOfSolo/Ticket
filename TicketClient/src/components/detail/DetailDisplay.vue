@@ -11,7 +11,7 @@
         </div>
         <div class="detail-display-number">
           <span style="margin-right: 20px">选择数量</span>
-          <el-input-number v-model="num" @change="handleChange" :min="1" :max="max" label="描述文字"></el-input-number>
+          <el-input-number v-model="num" @change="handleChange" :min="0" :max="max" label="描述文字"></el-input-number>
           <!--<span class="remain-number">剩余{{this.remainNum}}张</span>-->
         </div>
         <div class="detail-display-total">
@@ -52,11 +52,12 @@
           place: '上海梅赛德斯奔驰文化中心',
           priceList: [280, 480, 680, 880, 980, 1280]
         },
-        num: 1,
-        max: 10,
+        num: 0,
+        max: 20,
         totalPrice: 0,
         priceActiveNum: 0,
-        remainNum: 0
+        remainNum: 0,
+        discount: 0
       }
     },
     methods: {
@@ -70,16 +71,26 @@
         this.remainNum = this.showInfo.showPrices[index].remain_num
       },
       buy(){
-        let orderInfo = this.showInfo
-        orderInfo.num = this.num
-        orderInfo.total = this.totalPrice
-        orderInfo.seat = this.showInfo.showPrices[this.priceActiveNum].id
-        orderInfo.price = this.showInfo.showPrices[this.priceActiveNum].price
-        orderInfo.discount = Math.floor(this.totalPrice * (1 - this.$store.getters.discount))
-        console.log(orderInfo)
+        var userId = JSON.parse(window.localStorage.getItem('user'))
+        if (userId ==null || userId == ''){
+          this.$message({
+            message:'登录之后才能购票，请先登录',
+            type: 'error'
+          })
+        }else{
+          console.log(this.discount)
+          let orderInfo = this.showInfo
+          orderInfo.num = this.num
+          orderInfo.total = this.totalPrice
+          orderInfo.seat = this.showInfo.showPrices[this.priceActiveNum].id
+          orderInfo.price = this.showInfo.showPrices[this.priceActiveNum].price
+          orderInfo.discount = Math.floor(this.totalPrice * (1 - this.discount))
+          console.log(orderInfo)
 //        this.$store.commit('ORDER_INFO',orderInfo)
-        this.$store.dispatch('ORDER_INFO',orderInfo)
-        this.$router.push({name: 'OrderConfirm'})
+//        this.$store.dispatch('ORDER_INFO',orderInfo)
+          window.sessionStorage.setItem("order",JSON.stringify(orderInfo))
+          this.$router.push({name: 'OrderConfirm'})
+        }
       },
       compare(property){
         return function(obj1,obj2){
@@ -90,8 +101,19 @@
       }
     },
     mounted (){
-      this.totalPrice = this.priceList[0].price
-      this.remainNum = this.priceList[0].remain_num
+      var self = this
+      this.$http({
+        method: 'post',
+        url: '/User/discount/'+this.$store.getters.user.id
+      }).then(function (res) {
+        console.log(res)
+        self.discount = res.data
+        console.log('hhahahh'+self.discount)
+      }).catch(function (err) {
+        console.log(err)
+      })
+//      this.totalPrice = this.priceList[0].price
+//      this.remainNum = this.priceList[0].remain_num
     }
   }
 </script>

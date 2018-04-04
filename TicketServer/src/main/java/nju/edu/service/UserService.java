@@ -17,4 +17,6 @@ public interface UserService {
     User login(String email, String password);
 
     User findByNameAndPassword(String name, String password);
+
+    double discount(int id);
 }

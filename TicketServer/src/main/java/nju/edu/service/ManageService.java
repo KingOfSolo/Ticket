@@ -9,4 +9,8 @@ public interface ManageService {
     String active(int venueId);
 
     void notPass(int venueId);
+
+    void modifySuccess(int venueId);
+
+    void modifyFail(int venueId);
 }

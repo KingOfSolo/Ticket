@@ -5,6 +5,8 @@ import nju.edu.model.User;
 import nju.edu.repositoty.UserRepository;
 import nju.edu.service.MailService;
 import nju.edu.service.UserService;
+import nju.edu.util.Member;
+import nju.edu.util.UserDiscount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String registerUser(User user) {
+        user.setLevel(1);
+        user.setBalance(1000);
         userRepository.save(user);
         List<User> list = userRepository.findAll();
         String link = "localhost:8075/TicketServer/User/verify/id/"+list.get(list.size()-1).getId();
@@ -57,5 +61,33 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findByNameAndPassword(String name, String password) {
         return this.userDao.findByNameAndPassword(name, password).get(0);
+    }
+
+    @Override
+    public double discount(int id) {
+        User user = userRepository.findOne(id);
+        return discountCheck(user.getLevel());
+    }
+    
+    private double discountCheck(int level){
+        if (1 <= level && level < 2){
+            return UserDiscount.DISCOUNT_1;
+        }else if(2 <= level && level < 3){
+            return UserDiscount.DISCOUNT_2;
+        }else if(3 <= level && level < 4){
+            return UserDiscount.DISCOUNT_3;
+        }else if(4 <= level && level < 5){
+            return UserDiscount.DISCOUNT_4;
+        }else if(5 <= level && level < 6){
+            return UserDiscount.DISCOUNT_5;
+        }else if(6 <= level && level < 7){
+            return UserDiscount.DISCOUNT_6;
+        }else if(7 <= level && level < 8){
+            return UserDiscount.DISCOUNT_7;
+        }else if(8 <= level && level < 9){
+            return UserDiscount.DISCOUNT_8;
+        }else{
+            return UserDiscount.DISCOUNT_9;
+        }
     }
 }

@@ -64,7 +64,17 @@
       }
     },
     created(){
-      this.userInfo = JSON.parse(window.localStorage.getItem("user"))
+      var userId = JSON.parse(window.localStorage.getItem('userId'))
+      var self = this
+      this.$http({
+        method: 'get',
+        url: '/User/findById/id/'+userId
+      }).then(function (res) {
+        console.log(res)
+        self.userInfo = res.data
+      }).catch(function (err) {
+        console.log(err)
+      })
       console.log(this.userInfo)
     },
     methods: {

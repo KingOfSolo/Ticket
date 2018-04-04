@@ -104,10 +104,27 @@
         this.showEdit = true
       },
       submit(){
-
+        var self = this
+        var data = {
+          venue_id: this.venueInfo.venue_id,
+          name: this.venueEditInfo.name,
+          address: this.venueEditInfo.address,
+        }
+        console.log(data)
+        this.$http({
+          method: 'post',
+          url: '/Venue/modify',
+          data:data
+        }).then(function (res) {
+          console.log(res)
+          self.$message({
+            message:'修改申请已经提交，等待Tickets经理审核，审核通过后会有邮件通知',
+            type: 'success'
+          })
+        })
       },
     },
-    created(){
+    mounted(){
       this.venueEditInfo = this.venueInfo
     }
   }

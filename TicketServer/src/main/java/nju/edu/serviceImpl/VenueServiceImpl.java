@@ -1,6 +1,7 @@
 package nju.edu.serviceImpl;
 
 import nju.edu.model.Order;
+import nju.edu.model.Seat;
 import nju.edu.model.Show;
 import nju.edu.model.Venue;
 import nju.edu.repositoty.OrderRepository;
@@ -32,6 +33,16 @@ public class VenueServiceImpl implements VenueService{
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Override
+    public Venue register(Venue venue) {
+        Venue venue1 = new Venue(recognitionCode(), venue.getEmail(), venue.getPassword(),
+                venue.getName(), venue.getAddress(), 0);
+        for (Seat seat: venue.getSeats()){
+            venue1.addSeat(new Seat(seat.getSeat_name(), seat.getNumber()));
+        }
+        return venueRepository.save(venue1);
+    }
 
     @Override
     public String login(String identification, String password) {
@@ -127,6 +138,29 @@ public class VenueServiceImpl implements VenueService{
 
         }
         return null;
+    }
+
+    private String recognitionCode(){
+        List<Venue> venues = venueRepository.findAll();
+        if (venues.size() == 0){
+            return "V000001";
+        }else{
+            Venue venue = venues.get(venues.size() - 1);
+            int id = venue.getVenue_id()+1;
+            if (1 <= id && id < 10){
+                return "V00000"+id;
+            }else if(10 <= id && id < 100){
+                return "V0000"+id;
+            }else if(100 <= id && id <1000){
+                return "V000"+id;
+            }else if(1000 <= id && id < 10000){
+                return "V00"+id;
+            }else if(10000 <= id  && id < 100000){
+                return "V0"+id;
+            }else{
+                return "V"+id;
+            }
+        }
     }
 
 }
