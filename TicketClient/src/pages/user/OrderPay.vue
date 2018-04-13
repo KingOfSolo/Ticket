@@ -27,7 +27,7 @@
       width="400px"
       center>
       <div>
-        <el-input v-model="payPassword"></el-input>
+        <el-input v-model="payPassword" type="password"></el-input>
         <div class="label" :class="{displayNone: labelVisible}">密码错误，请重新输入</div>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -60,7 +60,8 @@
         dialogVisible: false,
         labelVisible: true,
         userInfo: {},
-        payPassword: ''
+        payPassword: '',
+        isOverTime: false
       }
     },
     created(){
@@ -89,6 +90,7 @@
         if(this.time <= 0){
           this.minutes = "00";
           this.seconds = "00";
+          this.isOverTime = true
 //          this.overtime1()
           clearInterval(this.timer);
         }
@@ -103,19 +105,27 @@
         })
       },
       payment(){
-        var self = this
-        if (this.payPassword == this.userInfo.password){
-          this.$http({
-            method: 'post',
-            url: '/Order/pay/'+this.$route.params.number,
-          }).then(function (res) {
-            self.$router.push({name: 'OrderSuccess',params:{id: self.userInfo.id}})
-          }).catch(function (err) {
-            console.log(err)
+        if (this.isOverTime){
+          this.$message({
+            message:'已超时，无法付款',
+            type: 'error'
           })
         }else{
+          var self = this
+          if (this.payPassword == this.userInfo.password){
+            this.$http({
+              method: 'post',
+              url: '/Order/pay/'+this.$route.params.number,
+            }).then(function (res) {
+              self.$router.push({name: 'OrderSuccess',params:{id: self.userInfo.id}})
+            }).catch(function (err) {
+              console.log(err)
+            })
+          }else{
             this.labelVisible = false
+          }
         }
+
       }
     },
     mounted(){

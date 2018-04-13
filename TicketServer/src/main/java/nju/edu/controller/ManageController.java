@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -101,9 +102,15 @@ public class ManageController {
     }
 
     @RequestMapping(value = "/payList",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public List<Venue> payList(){
+        public List<Venue> payList(){
         List<Venue> list = venueRepository.findAll();
-        return list;
+        List<Venue> result = new ArrayList<>();
+        for(Venue venue: list){
+            if(venueService.income(venue.getVenue_id()) != 0){
+                result.add(venue);
+            }
+        }
+        return result;
     }
 
     @RequestMapping(value = "/payment/{venueId}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")

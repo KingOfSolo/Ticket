@@ -49,6 +49,7 @@
     },
     methods:{
       handleEdit(index, row) {
+        this.payList.splice(index,1)
 //        console.log(index, row);
 //        var self = this
 //        self.venueList.splice(index,1)

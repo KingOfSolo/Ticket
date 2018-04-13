@@ -6,7 +6,7 @@
           <h2 style="text-align: center">掠影</h2>
           <div style="text-align: center;margin-top: 20px">
             <input class="venue-login-input" placeholder="识别码" v-model="identification"/>
-            <input class="venue-login-input" placeholder="密码" v-model="password"/>
+            <input class="venue-login-input" placeholder="密码" v-model="password" type="password"/>
             <button class="venue-login-button" @click="venueLogin">登录</button>
             <div class="more" @click="toSignUp">场馆注册></div>
           </div>

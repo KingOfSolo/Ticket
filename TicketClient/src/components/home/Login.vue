@@ -182,4 +182,8 @@
   .transformSignUp{
     transform: translateX(0);
   }
+
+  .box path{
+    fill: #ffffff;
+  }
 </style>

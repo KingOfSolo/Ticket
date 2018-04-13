@@ -12,7 +12,7 @@
         price: 0
       }
     },
-    created(){
+    mounted(){
       var self = this
       this.$http({
         method: 'post',
