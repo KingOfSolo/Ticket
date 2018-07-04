@@ -84,9 +84,9 @@
               type: 'error'
             })
           }else{
-            self.$store.dispatch('USER_SIGNIN',res.data)
-            self.$emit('loginSuccess')
-            window.localStorage.setItem('userId', JSON.stringify(res.data.id))
+            self.$store.dispatch('USER_SIGNIN',res.data);
+            window.localStorage.setItem('userId', JSON.stringify(res.data.id));
+            self.$emit('loginSuccess');
           }
 
         }).catch(function (err) {

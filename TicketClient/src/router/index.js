@@ -57,7 +57,7 @@ export default new Router({
           component:OrderSuccess
         },
         {
-          path: '/User/:userId',
+          path: '/User/:userId/:index',
           name: 'User',
           component:User
         },

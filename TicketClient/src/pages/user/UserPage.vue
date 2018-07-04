@@ -36,13 +36,17 @@
     methods:{
       userTabClick(index){
         this.tabActiveNum = index
+        var userId = JSON.parse(window.localStorage.getItem('userId'));
+        this.$router.push({name: 'User', params: {userId: userId, index: index}})
       }
     },
     created(){
+      this.tabActiveNum = this.$route.params.index
+      var userId = JSON.parse(window.localStorage.getItem('userId'));
       var self = this
       this.$http({
         method: 'get',
-        url: '/User/findById/id/'+this.$route.params.userId
+        url: '/User/findById/id/'+userId
       }).then(function (res) {
         console.log(res)
         self.userInfo = res.data

@@ -3,7 +3,7 @@
     <div class="order-tab">
       <span class="order-tab-item" v-for="(item, index) in tabs" @click="tabClick(index)" :class="{tabActive: index == tabActiveNum}">{{item}}</span>
     </div>
-    <order-display v-for="(item,index) in orderInfoList" :order-info="item" :key="index"
+    <order-display v-for="(item,index) in orderInfoList" :order-info="item" :key="item.id"
                    v-if="(currentPage - 1) * pageSize <= index && index < currentPage * pageSize"></order-display>
     <div style="text-align: right;margin-top: 80px">
       <el-pagination
@@ -44,6 +44,7 @@
         this.tabActiveNum = index
         var self = this
         var url = ''
+        console.log(this.tabActiveNum)
         if(index != 0){
           url = '/Order/state/'+this.userId+'/'+this.tabActiveNum
         }else{

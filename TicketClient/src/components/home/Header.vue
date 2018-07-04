@@ -10,7 +10,7 @@
     </el-button>
     <span style="display: flex;align-items: center">
       <input id="search-input" placeholder="搜索演出、场馆"/>
-        <div id="search-button">
+        <div id="search-button" @click="searchDialogVisible = true">
           <i class="el-icon-search"></i>
           搜索
         </div>
@@ -19,7 +19,10 @@
       <div v-if="isLogin">
         <el-dropdown style="margin-left: 10px" @command="handleCommand">
           <span class="el-dropdown-link">
-            <img id="head-portrait" :src="headUrl"/>
+            <span class="flex-center">
+              <img id="head-portrait" :src="headUrl"/>
+              <span id="username">{{username}}</span>
+            </span>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="a">个人中心</el-dropdown-item>
@@ -33,8 +36,9 @@
     </span>
     <el-dialog
       :visible.sync="loginDialogVisible"
-      width="430px"
-      :modal="isModal">
+      width="429px"
+      :append-to-body="true"
+      :show-close="false">
       <login v-on:loginSuccess = "loginSuccess"></login>
     </el-dialog>
   </div>
@@ -62,27 +66,57 @@
         loginDialogVisible: false,
         showClose: false,
         headUrl: 'https://picsum.photos/200/200',
-        isModal: false
+        isModal: false,
+        username: '浅安',
+        searchDialogVisible: false
+      }
+    },
+    created(){
+      var userId = JSON.parse(window.localStorage.getItem('userId'));
+      if (userId == null || userId == '' || userId == undefined){
+          this.username = '浅安';
+      }else {
+        var self = this;
+        this.$http({
+          method: 'get',
+          url: '/User/findById/id/'+ userId
+        }).then(function (res) {
+          console.log(res)
+          self.username = res.data.name
+        }).catch(function (err) {
+          console.log(err)
+        })
       }
     },
     methods: {
       handleCommand (command) {
         var userId = JSON.parse(window.localStorage.getItem('userId'))
         if (command === 'a') {
-          this.$router.push({name: 'User', params: {userId: userId}})
+          this.$router.push({name: 'User', params: {userId: userId, index: 0}})
         } else if (command === 'd') {
-          this.$store.dispatch('USER_SIGNOUT')
-          window.localStorage.removeItem('userId')
+          this.$store.dispatch('USER_SIGNOUT');
+          window.localStorage.removeItem('userId');
           this.$router.push({name: 'Home'})
         } else if (command === 'c') {
           this.isLogin = true
-          this.$router.push({name: 'Main'})
-          this.$cookie.delete('token')
-          this.$cookie.delete('loginId')
+          this.$router.push({name: 'Main'});
+          this.$cookie.delete('token');
+          this.$cookie.delete('loginId');
         }
       },
       loginSuccess(){
-        this.loginDialogVisible = false
+        this.loginDialogVisible = false;
+        var userId = JSON.parse(window.localStorage.getItem('userId'));
+        var self = this;
+        this.$http({
+          method: 'get',
+          url: '/User/findById/id/'+ userId
+        }).then(function (res) {
+          console.log(res)
+          self.username = res.data.name
+        }).catch(function (err) {
+          console.log(err)
+        })
         this.$message({
           message:'登录成功',
           type: 'success'
@@ -196,12 +230,21 @@
     cursor: pointer;
   }
 
-  #header .el-dialog__body{
+  .el-dialog__body{
     padding: 0;
   }
 
-  #header .el-dialog__header{
+  .el-dialog__header{
     display: none;
+  }
+
+  .flex-center{
+    display: flex;
+    align-items: center;
+  }
+
+  #username {
+    margin-left: 5px;
   }
 
 </style>

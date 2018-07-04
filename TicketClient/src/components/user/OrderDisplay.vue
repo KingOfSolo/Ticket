@@ -108,9 +108,9 @@
         })
       }
     },
-    mounted(){
-
-      this.init()
+    created(){
+      console.log('hhhhhh哈哈哈哈');
+      this.init();
       this.countdownTime()
     }
   }

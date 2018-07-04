@@ -1,7 +1,7 @@
 <template>
   <div id="choose-container">
     <div style="text-align: left">
-      <choose-show-display v-for="(item, index) in chooseShowInfoList" :key="index" :choose-show-info="item"
+      <choose-show-display v-for="(item, index) in chooseShowInfoList" :key="index.show_id" :choose-show-info="item"
         v-if="(currentPage - 1) * pageSize <= index && index < currentPage * pageSize"></choose-show-display>
     </div>
     <div style="text-align: right;margin-top: 80px">
